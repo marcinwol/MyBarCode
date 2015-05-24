@@ -4,5 +4,4 @@
 *.o
 *.a
 *.so*
-.idea/*
-app/mwdcmconverter
+.idea
