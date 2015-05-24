@@ -26,5 +26,7 @@ int main(int ac, const char* av[]) {
 
     cout << "In Dir: " << *in_dir << endl;
 
+    app.test();
+
     return 0;
 }

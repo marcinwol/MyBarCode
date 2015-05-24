@@ -94,9 +94,9 @@ MwBarCode::test()
 
     string in_img {"/mnt/e/j/New folder (3)/DSC_4966.JPG"};
 
-//    MwImage mImg {in_img};
-//    mImg.read();
-//    cout << "testing" << endl;
+    MwImage mImg {in_img};
+    mImg.read();
+    cout << "testing" << endl;
 }
 
 MwBarCode::~MwBarCode()

@@ -8,6 +8,7 @@
 #include "BoostHeaders.h"
 #include "MagickHeaders.h"
 
+#include "MwImage.h"
 #include "utils.h"
 
 using namespace std;
