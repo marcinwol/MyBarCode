@@ -241,9 +241,9 @@ MwImage::getPixelCatch()
 
     pixels.assign(pp, pp + w*h);
 
-    Magick::ColorRGB c = pixels[2];
-
-    cout << "FdgDfgfffF:"  << endl;
+   // Magick::Color c = pixels[2];
+    
+    cout << "FdgDfgffcfF:"  << endl;
 
 
 }

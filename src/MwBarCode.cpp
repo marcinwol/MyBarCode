@@ -92,10 +92,12 @@ void
 MwBarCode::test()
 {
 
-    string in_img {"/mnt/e/j/New folder (3)/DSC_4966.JPG"};
+    string in_img {"/home/marcin/Desktop/IMG_20150507_111536.jpg"};
 
+   // Magick::Image mImg {in_img};
     MwImage mImg {in_img};
-    mImg.read();
+
+  //  mImg.read();
     cout << "testing" << endl;
 }
 
