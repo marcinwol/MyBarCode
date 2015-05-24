@@ -1,0 +1,8 @@
+*.pro.user*
+*~
+*Make*
+*.o
+*.a
+*.so*
+.idea/*
+app/mwdcmconverter
