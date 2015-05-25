@@ -2,7 +2,7 @@
 
 #include "MwImage.h"
 
-MwImage::MwImage(const string & _img_path):img_path(_img_path)
+MwImage::MwImage(const string & _img_path):img_path(_img_path), mimg(_img_path)
 {
     getPixelCatch();
 }
@@ -241,9 +241,11 @@ MwImage::getPixelCatch()
 
     pixels.assign(pp, pp + w*h);
 
-   // Magick::Color c = pixels[2];
+    Magick::ColorRGB c = pixels[2];
+
+    cout << c.red() << endl;
     
-    cout << "FdgDfgffcfF:"  << endl;
+    cout << "FdgDfgffhcfF:"  << endl;
 
 
 }
