@@ -4,6 +4,7 @@
 
 MwImage::MwImage(const string & _img_path):img_path(_img_path), mimg(_img_path)
 {
+    read();
     getPixelCatch();
 }
 
@@ -208,7 +209,6 @@ MwImage::is_image(const path & img_path_)
 
     try
     {
-
         Magick::Image img ;
 
         img.ping(img_path_.string());
