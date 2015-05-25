@@ -7,8 +7,6 @@
 
 #include <Magick++/Include.h>
 #include <Magick++/Image.h>
-#include <Magick++/Options.h>
-#include <Magick++/ImageRef.h>
 #include <Magick++/Pixels.h>
 #include <Magick++/STL.h>
 

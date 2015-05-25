@@ -92,7 +92,7 @@ void
 MwBarCode::test()
 {
 
-    string in_img {"/home/marcin/Desktop/IMG_20150507_111536.jpg"};
+    string in_img {"/home/m/Desktop/test_modified.png"};
 
    // Magick::Image mImg {in_img};
     MwImage mImg {in_img};

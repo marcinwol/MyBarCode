@@ -7,7 +7,7 @@
 
 #include <boost/filesystem.hpp>
 
-
+#include "MwColor.h"
 #include "MwResolution.h"
 #include "utils.h"
 
@@ -61,7 +61,7 @@ private:
     Magick::Image mimg;
     properties_map properties {};
     MwResolution resolution;
-    vector<Magick::ColorRGB> pixels {};
+    vector<MwColor> pixels {};
 
     void getPixelCatch();
 
