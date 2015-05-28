@@ -92,14 +92,20 @@ void
 MwBarCode::test()
 {
 
-    string in_img {"/home/m/Desktop/test_modified.png"};
+    string in_img {"/home/m/Desktop/Untitled.png"};
 
    // Magick::Image mImg {in_img};
     MwImage mImg {in_img};
 
-  //  mImg.read();
+
+    MwColor c {mImg.getPixel(157, 103)};
+    MwColor c1 {mImg.getPixel(157, 103)};
+
+    cout << c << " " << c1 << endl;
+    cout << c + c1 << endl;
+
     cout << "testing" << endl;
-}
+};
 
 MwBarCode::~MwBarCode()
 {

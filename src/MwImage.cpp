@@ -230,6 +230,14 @@ MwImage::is_image(const path & img_path_)
 }
 
 
+MwColor
+MwImage::getPixel(size_t x, size_t y) const {
+
+    size_t w {mimg.columns()};
+    size_t h {mimg.rows()};
+
+    return pixels.at(w*y+x);
+}
 
 void
 MwImage::getPixelCatch()
@@ -240,14 +248,6 @@ MwImage::getPixelCatch()
     Magick::PixelPacket * pp = mimg.getPixels(0, 0, w, h);
 
     pixels.assign(pp, pp + w*h);
-
-    Magick::ColorRGB c = pixels[2];
-
-    cout << c.red() << endl;
-    
-    cout << "FdgDfgffhcfF:"  << endl;
-
-
 }
 
 
