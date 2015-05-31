@@ -92,7 +92,8 @@ void
 MwBarCode::test()
 {
 
-    string in_img {"/home/m/Desktop/Untitled.png"};
+   // string in_img {"/home/m/Desktop/Untitled.png"};
+    string in_img {"/home/m/Desktop/test_modified.png"};
 
    // Magick::Image mImg {in_img};
     MwImage mImg {in_img};
@@ -101,8 +102,6 @@ MwBarCode::test()
     MwColor c {mImg.getPixel(157, 103)};
     MwColor c1 {mImg.getPixel(157, 103)};
 
-    cout << c << " " << c1 << endl;
-    cout << c + c1 << endl;
 
     mImg.getAvgPixel();
 
