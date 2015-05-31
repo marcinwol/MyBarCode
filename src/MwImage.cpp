@@ -256,3 +256,33 @@ MwImage::~MwImage()
 
 }
 
+MwColor
+MwImage::getAvgPixel() const {
+
+
+    double
+        sum_red,
+        sum_green,
+        sum_blue;
+
+    size_t no_pixels;
+    no_pixels = rows()*columns();
+
+    for(const MwColor& _mwc : pixels)
+    {
+        sum_red   += _mwc.red();
+        sum_green += _mwc.green();
+        sum_blue  += _mwc.blue();
+    }
+
+    sum_red   /= no_pixels;
+    sum_green /= no_pixels;
+    sum_blue  /= no_pixels;
+
+    cout << sum_red << " " << sum_green << " " << sum_blue  << endl;
+
+
+    MwColor mwc { sum_red, sum_green, sum_blue};
+
+    return mwc;
+}

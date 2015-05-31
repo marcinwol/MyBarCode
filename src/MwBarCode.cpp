@@ -104,6 +104,8 @@ MwBarCode::test()
     cout << c << " " << c1 << endl;
     cout << c + c1 << endl;
 
+    mImg.getAvgPixel();
+
     cout << "testing" << endl;
 };
 

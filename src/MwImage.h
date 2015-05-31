@@ -36,8 +36,8 @@ public:
     void readProperties();
     void calcResolution();
 
-    size_t rows()    {return mimg.rows();}
-    size_t columns() {return mimg.columns();}
+    size_t rows() const    {return mimg.rows();}
+    size_t columns() const {return mimg.columns();}
 
 
     bool isDCM() const {return getType() == "DCM";}
@@ -50,6 +50,7 @@ public:
     const MwResolution & getResolution() const;
 
     MwColor getPixel(size_t x, size_t y) const;
+    MwColor getAvgPixel() const;
 
 
     void save_as_tiff(const path & out_path, const string & format = "TIFF");
