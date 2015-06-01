@@ -93,7 +93,8 @@ MwBarCode::test()
 {
 
    // string in_img {"/home/m/Desktop/Untitled.png"};
-    string in_img {"/home/m/Desktop/test_modified.png"};
+    //string in_img {"/home/m/Desktop/test_modified.png"};
+    string in_img {"/mnt/e/ImageDatabases/Martin_OMSOK_xrays/04a_cropped/032_POST_947415_DPI253_d128px.tiff"};
 
    // Magick::Image mImg {in_img};
     MwImage mImg {in_img};

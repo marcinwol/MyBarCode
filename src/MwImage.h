@@ -26,8 +26,8 @@ public:
 
     MwImage(){}
 
-    MwImage(const string & _img_path);
-    MwImage(const path   & _img_path);
+    explicit MwImage(const string & _img_path);
+    explicit MwImage(const path   & _img_path);
 
 
     void read();
