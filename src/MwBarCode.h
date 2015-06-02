@@ -22,11 +22,11 @@ class MwBarCode {
 
 public:
 
+    using paths_vector = vector<path>;
+
     bool options_ok;
 
-    using paths_vector = vector<mw::fs::found_path_info>;
     MwBarCode(int acc, const char *avv[]);
-
 
     void
     read_in_dir(const path & in_dir, int max_level = -1, bool verbose = false);
@@ -40,7 +40,6 @@ public:
 
     void test();
 
-
     ~MwBarCode();
 
 private:
@@ -49,7 +48,6 @@ private:
     po::variables_map vm;
 
     void ParseOptions(int acc, const char *avv[]);
-
 };
 
 

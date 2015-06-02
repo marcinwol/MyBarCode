@@ -178,10 +178,6 @@ namespace  mw {
     namespace fs
     {
 
-
-
-
-
         /** Scaning folder for all paths using fts_read linux method.
          * @brief fts_dear_tree_scan
          * @param in_path
@@ -189,7 +185,7 @@ namespace  mw {
          * @return
          */
         int fts_dear_tree_scan(const string & in_path,
-                               vector<found_path_info> & found_paths,
+                               vector<string> & found_paths,
                                int max_level,
                                bool show_progress)
         {
@@ -248,11 +244,8 @@ namespace  mw {
 
                     ++i;
 
-                    found_paths.push_back(
-                            found_path_info{node->fts_path,
-                                            node->fts_level,
-                                            bf::path(node->fts_path)}
-                    );
+                    found_paths.push_back(node->fts_path);
+
                 }
             }
 
@@ -284,50 +277,31 @@ namespace  mw {
         }
 
 
+
         vector<bf::path>
-        get_all_paths_fts(const bf::path & in_path,
-                          int max_level,
-                          bool show_progress)
-        {
-            vector<bf::path> paths;
-            vector<found_path_info> found_paths;
-
-            int status {1};
-
-            status = fts_dear_tree_scan(in_path.string(), found_paths,
-                                        max_level, show_progress);
-
-            if (status == 0)
-            {
-                paths.reserve(found_paths.size());
-
-                for (const found_path_info & a_path_str : found_paths)
-                {
-                    paths.push_back(bf::path {a_path_str.full_path});
-                }
-            }
-
-
-            return paths;
-        }
-
-        vector<found_path_info>
         get_all_paths_fts2(const bf::path & in_path,
                            int max_level,
                            bool show_progress)
         {
-            vector<found_path_info> found_paths;
+            vector<string> found_paths_str;
+            vector<bf::path> found_paths;
 
             int status {1};
 
-            status = fts_dear_tree_scan(in_path.string(), found_paths,
-                                        max_level, show_progress);
+            status = fts_dear_tree_scan(in_path.string(),
+                                        found_paths_str,
+                                        max_level,
+                                        show_progress);
 
             if (status == 1)
             {
                 errp("Problem reading a folder");
             }
 
+            for (auto & a_path: found_paths_str)
+            {
+                found_paths.emplace_back<bf::path>(a_path);
+            }
 
 
             return found_paths;

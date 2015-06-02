@@ -161,14 +161,6 @@ namespace  mw {
 
      const bool OVERWRITE_IF_EXIST {true};
 
-     struct found_path_info
-     {
-         string full_path;
-         int    fts_level;
-         bf::path fpath;
-     };
-
-
      /** Scaning folder for all paths using fts_read linux method.
      *
      * @brief fts_dear_tree_scan
@@ -177,16 +169,12 @@ namespace  mw {
      * @return
      */
     int fts_dear_tree_scan(const string & in_path,
-                                vector<found_path_info> & found_paths,
+                                vector<string> & found_paths,
                                 int max_level = -1,
                                 bool show_progress = false);
 
-    vector<bf::path>
-    get_all_paths_fts(const bf::path & in_path,
-                             int max_level = -1,
-                             bool show_progress = false);
 
-    vector<found_path_info>
+    vector<bf::path>
     get_all_paths_fts2(const bf::path & in_path,
                              int max_level = -1,
                              bool show_progress = false);
