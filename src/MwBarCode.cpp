@@ -91,18 +91,19 @@ MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
     // to non-image file types.
     if (use_only_images)
     {
-        paths_vector::iterator begin {all_found_paths.begin()};
-        paths_vector::iterator end   {all_found_paths.end()};
+        paths_vector::const_iterator it_begin = all_found_paths.begin();
+        paths_vector::const_iterator it_end   = all_found_paths.end();
 
         auto is_image_lmd =
-                [&](const path& a_path) {return MwImage::is_image(a_path);};
+                [](const path& a_path) {return MwImage::fast_is_image(a_path);};
 
-        copy_if(begin, end, back_inserter(found_paths), is_image_lmd);
+        copy_if(it_begin, it_end, back_inserter(found_paths), is_image_lmd);
     }
     else
     {
         found_paths = all_found_paths;
     }
+
 }
 
 

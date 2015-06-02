@@ -11,6 +11,8 @@
 #include "MwResolution.h"
 #include "utils.h"
 
+#include "../ext/filesignature.h"
+
 using namespace std;
 using namespace boost::filesystem;
 
@@ -53,10 +55,12 @@ public:
     MwColor getAvgPixel() const;
 
 
+
+
     void save_as_tiff(const path & out_path, const string & format = "TIFF");
 
 
-
+    static bool fast_is_image(const path& img_path);
     static bool is_image(const path & img_path_);
 
 

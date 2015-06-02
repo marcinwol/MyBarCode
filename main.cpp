@@ -22,15 +22,19 @@ int main(int ac, const char* av[]) {
     }
 
     // get all image paths in an input folder
-    MwBarCode::paths_vector found_files;
-    found_files = app.getPaths();
+    MwBarCode::paths_vector found_files {app.getPaths()};
 
     for (const path& a_file: found_files)
     {
         cout << a_file << endl;
+
+        MwImage mwi {a_file};
+
+        MwColor avg_pixel {mwi.getAvgPixel()};
+
     }
 
     app.test();
 
     return 0;
-}
+};

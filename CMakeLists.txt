@@ -16,7 +16,7 @@ if(ImageMagick_FOUND)
 endif()
 
 set(SOURCE_FILES main.cpp)
-add_executable(MwBarCode ${SOURCE_FILES} src/MwBarCode.cpp src/MwBarCode.h src/MagickHeaders.h src/BoostHeaders.h src/utils.cpp src/utils.h ext/infix_iterator.h ext/format.cpp ext/format.h src/MwImage.cpp src/MwImage.h src/MwResolution.cpp src/MwResolution.h src/MwColor.cpp src/MwColor.h)
+add_executable(MwBarCode ${SOURCE_FILES} src/MwBarCode.cpp src/MwBarCode.h src/MagickHeaders.h src/BoostHeaders.h src/utils.cpp src/utils.h ext/infix_iterator.h ext/format.cpp ext/format.h src/MwImage.cpp src/MwImage.h src/MwResolution.cpp src/MwResolution.h src/MwColor.cpp src/MwColor.h ext/filesignature.cpp ext/filesignature.h)
 
 if(Boost_FOUND)
     target_link_libraries(MwBarCode ${Boost_LIBRARIES})

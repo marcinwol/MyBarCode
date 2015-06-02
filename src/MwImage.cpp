@@ -291,3 +291,19 @@ MwImage::getAvgPixel() const {
 
     return mwc;
 }
+
+bool
+MwImage::fast_is_image(const path &img_path)
+{
+
+    mw::Signature empty_signature;
+
+    if (mw::is_image(img_path.string(), &empty_signature))
+    {
+        //cout << " Image type: " <<  empty_signature.img_type << endl;
+        return true;
+    }
+
+    return false;
+}
+
