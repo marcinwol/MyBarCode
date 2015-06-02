@@ -6,14 +6,12 @@ using namespace Magick;
 
 int main(int ac, const char* av[]) {
 
-
     MwBarCode app {ac, av};
 
     if (!app.options_ok)
     {
         return 1;
     }
-
 
     auto in_dir         = app.get_option<path>("in-dir");
 
@@ -23,8 +21,14 @@ int main(int ac, const char* av[]) {
         app.read_in_dir(*in_dir);
     }
 
+    // get all image paths in an input folder
+    MwBarCode::paths_vector found_files;
+    found_files = app.getPaths();
 
-    cout << "In Dir: " << *in_dir << endl;
+    for (const path& a_file: found_files)
+    {
+        cout << a_file << endl;
+    }
 
     app.test();
 

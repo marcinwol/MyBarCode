@@ -84,7 +84,25 @@ template optional<path>
 void
 MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
 {
-    found_paths =  mw::fs::get_all_paths_fts2(in_dir, max_level, verbose);
+    paths_vector  all_found_paths {};
+    all_found_paths = mw::fs::get_all_paths_fts2(in_dir, max_level, verbose);
+
+    // we want only images, so filter out all paths that belong
+    // to non-image file types.
+    if (use_only_images)
+    {
+        paths_vector::iterator begin {all_found_paths.begin()};
+        paths_vector::iterator end   {all_found_paths.end()};
+
+        auto is_image_lmd =
+                [&](const path& a_path) {return MwImage::is_image(a_path);};
+
+        copy_if(begin, end, back_inserter(found_paths), is_image_lmd);
+    }
+    else
+    {
+        found_paths = all_found_paths;
+    }
 }
 
 

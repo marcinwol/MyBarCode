@@ -213,6 +213,11 @@ MwImage::is_image(const path & img_path_)
 
         img.ping(img_path_.string());
 
+        if (img.magick() == "TXT")
+        {
+            return false;
+        }
+
         return true;
     }
     catch(Magick::Error & e)

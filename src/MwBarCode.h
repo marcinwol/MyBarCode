@@ -24,7 +24,9 @@ public:
 
     using paths_vector = vector<path>;
 
-    bool options_ok;
+    bool use_only_images  {true};
+    bool options_ok       {false};
+
 
     MwBarCode(int acc, const char *avv[]);
 
@@ -37,6 +39,7 @@ public:
 
     const paths_vector &
     getPaths() const {return found_paths;}
+
 
     void test();
 
