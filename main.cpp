@@ -24,15 +24,24 @@ int main(int ac, const char* av[]) {
     // get all image paths in an input folder
     MwBarCode::paths_vector found_files {app.getPaths()};
 
+    // vector to store avarage color of each image
+    vector<MwColor> avg_pixels;
+
     for (const path& a_file: found_files)
     {
         cout << a_file << endl;
 
         MwImage mwi {a_file};
 
-        MwColor avg_pixel {mwi.getAvgPixel()};
+        avg_pixels.emplace_back(mwi.getAvgPixel());
 
     }
+
+    Magick::Image bar_code;
+
+    bar_code = app.makeBarCode(avg_pixels);
+
+    bar_code.write("/home/marcin/Desktop/out.png");
 
     app.test();
 

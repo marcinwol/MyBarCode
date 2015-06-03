@@ -106,6 +106,44 @@ MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
 
 }
 
+Magick::Image
+MwBarCode::makeBarCode(const vector<MwColor>& avg_pixels) const
+{
+    size_t columns {avg_pixels.size()};
+    size_t rows    {200};
+
+    // Create base image
+    Magick::Image image(Magick::Geometry(columns, rows), "white");
+
+    // Set the image type to TrueColor DirectClass representation.
+    image.type(Magick::TrueColorType);
+
+    // Ensure that there is only one reference to underlying image
+    // If this is not done, then image pixels will not be modified.
+    image.modifyImage();
+
+    // Allocate pixel view
+    Magick::Pixels view(image);
+
+    MagickCore::PixelPacket* pixels = view.get(0, 0, columns, rows);
+
+    for (size_t ci = 0; ci < columns; ++ci)
+    {
+        MwColor color {avg_pixels.at(ci)};
+
+        for (size_t ri = 0; ri < rows; ++ri)
+        {
+            *(pixels + ri*columns + ci ) = color;
+        }
+    }
+
+    view.sync();
+
+    return image;
+
+
+}
+
 
 void
 MwBarCode::test()

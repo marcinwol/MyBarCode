@@ -40,6 +40,8 @@ public:
     const paths_vector &
     getPaths() const {return found_paths;}
 
+    Magick::Image makeBarCode(const vector<MwColor>& avg_pixels) const;
+
 
     void test();
 

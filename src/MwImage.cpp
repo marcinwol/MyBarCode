@@ -121,14 +121,14 @@ MwImage::calcResolution() {
                       [](string & v){boost::trim(v);});
 
         //my::print_iterable(spacing_values);
-        if (!spacing_values.empty()) {
-
-
+        if (!spacing_values.empty())
+        {
             ps_x = stod(spacing_values.at(0));
             ps_y = stod(spacing_values.at(1));
-
         }
-    } else {
+    }
+    else
+    {
         // no PixelSpacing property. probably not dicom
         // so not surprise. If so, use density information (DPI)
         // and calcate pixel spacing.
