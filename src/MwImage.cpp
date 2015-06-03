@@ -284,8 +284,7 @@ MwImage::getAvgPixel() const {
     sum_green /= no_pixels;
     sum_blue  /= no_pixels;
 
-    cout << sum_red << " " << sum_green << " " << sum_blue  << endl;
-
+   // cout << sum_red << " " << sum_green << " " << sum_blue  << endl;
 
     MwColor mwc { sum_red, sum_green, sum_blue};
 

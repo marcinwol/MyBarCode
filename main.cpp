@@ -27,13 +27,19 @@ int main(int ac, const char* av[]) {
     // vector to store avarage color of each image
     vector<MwColor> avg_pixels;
 
+    size_t i {1};
+    size_t no_of_imgs {found_files.size()};
+
     for (const path& a_file: found_files)
     {
-        cout << a_file << endl;
+
+        fmt::print("{:d}/{:d}: {:s}\n", i, no_of_imgs, a_file.string());
 
         MwImage mwi {a_file};
 
         avg_pixels.emplace_back(mwi.getAvgPixel());
+
+        ++i;
 
     }
 

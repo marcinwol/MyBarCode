@@ -11,6 +11,8 @@
 #include "MwImage.h"
 #include "utils.h"
 
+#include "../ext/format.h"
+
 using namespace std;
 using namespace boost::filesystem;
 using boost::optional;
