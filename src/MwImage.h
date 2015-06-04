@@ -16,9 +16,6 @@
 using namespace std;
 using namespace boost::filesystem;
 
-namespace {
-    static const string PIXEL_SPACING_KEY_WORD = "dcm:pixelspacing";
-}
 
 class MwImage
 {
@@ -58,6 +55,8 @@ public:
 
     static bool fast_is_image(const path& img_path);
     static bool is_image(const path & img_path_);
+    static bool is_good_type(const Magick::Image& _image);
+    static bool is_good_type(const mw::Signature& _signature);
 
 
     virtual ~MwImage();

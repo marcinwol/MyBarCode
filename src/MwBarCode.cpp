@@ -94,8 +94,9 @@ MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
         paths_vector::const_iterator it_begin = all_found_paths.begin();
         paths_vector::const_iterator it_end   = all_found_paths.end();
 
-        auto is_image_lmd =
-                [](const path& a_path) {return MwImage::fast_is_image(a_path);};
+        auto is_image_lmd = [&](const path& a_path)
+                                {return MwImage::fast_is_image(a_path);};
+
 
         copy_if(it_begin, it_end, back_inserter(found_paths), is_image_lmd);
     }

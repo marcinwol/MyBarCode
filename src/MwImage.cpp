@@ -1,18 +1,27 @@
 
-
 #include "MwImage.h"
 
-MwImage::MwImage(const string & _img_path):img_path(_img_path), mimg(_img_path)
+namespace {
+
+    const string PIXEL_SPACING_KEY_WORD
+            {"dcm:pixelspacing"};
+
+    const vector<string> GOOD_IMAGE_TYPES
+            {"JPEG", "PNG", "TIFF"};
+};
+
+
+
+MwImage::MwImage(const string& _img_path):img_path(_img_path), mimg(_img_path)
 {
     read();
     getPixelCatch();
 }
 
-MwImage::MwImage(const path   & _img_path):MwImage(_img_path.string())
+MwImage::MwImage(const path& _img_path):MwImage(_img_path.string())
 {
 
 }
-
 
 
 
@@ -131,7 +140,7 @@ MwImage::calcResolution() {
     {
         // no PixelSpacing property. probably not dicom
         // so not surprise. If so, use density information (DPI)
-        // and calcate pixel spacing.
+        // and calculate pixel spacing.
 
         Magick::Geometry DPI = mimg.density();
 
@@ -199,8 +208,6 @@ MwImage::getType() const
 {
     return string(mimg.magick());
 }
-
-
 
 
 bool
@@ -300,9 +307,40 @@ MwImage::fast_is_image(const path &img_path)
     if (mw::is_image(img_path.string(), &empty_signature))
     {
         //cout << " Image type: " <<  empty_signature.img_type << endl;
-        return true;
+        return is_good_type(empty_signature);
     }
 
     return false;
 }
 
+bool
+MwImage::is_good_type(const Magick::Image& _image)
+{
+
+    auto check_type =
+            [&](const string& _type)
+                {return _type == _image.magick();};
+
+
+    return any_of(GOOD_IMAGE_TYPES.begin(),
+                  GOOD_IMAGE_TYPES.end(),
+                  check_type);
+
+    return true;
+};
+
+bool
+MwImage::is_good_type(const mw::Signature& _signature)
+{
+
+    auto check_type =
+            [&](const string& _type)
+                {return _type == _signature.str();};
+
+
+    return any_of(GOOD_IMAGE_TYPES.begin(),
+                  GOOD_IMAGE_TYPES.end(),
+                  check_type);
+
+    return true;
+};

@@ -8,6 +8,7 @@ int main(int ac, const char* av[]) {
 
     MwBarCode app {ac, av};
 
+
     if (!app.options_ok)
     {
         return 1;
@@ -22,13 +23,14 @@ int main(int ac, const char* av[]) {
     }
 
     // get all image paths in an input folder
-    MwBarCode::paths_vector found_files {app.getPaths()};
+    MwBarCode::paths_vector found_files ;
+    found_files = app.getPaths();
 
     // vector to store avarage color of each image
     vector<MwColor> avg_pixels;
 
     size_t i {1};
-    size_t no_of_imgs {found_files.size()};
+    size_t no_of_imgs = found_files.size();
 
     for (const path& a_file: found_files)
     {
@@ -43,13 +45,15 @@ int main(int ac, const char* av[]) {
 
     }
 
+
+
     Magick::Image bar_code;
 
     bar_code = app.makeBarCode(avg_pixels);
 
-    bar_code.write("/home/marcin/Desktop/out.png");
+    bar_code.write("/home/m/Desktop/out.png");
 
-    app.test();
+   // app.test();
 
     return 0;
 };

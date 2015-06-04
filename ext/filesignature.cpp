@@ -116,7 +116,7 @@ namespace mw {
   }
 
   bool
-  is_image(const string & a_path, mw::Signature * sig_holder)
+  is_image(const string & a_path, mw::Signature* sig_holder)
   {
       vector<mw::Signature>  found_sigs;
 
