@@ -11,7 +11,7 @@ using namespace Magick;
 namespace {
 
 
-   size_t i {0};
+    atomic_size_t i {0};
 
     MwBarCode::paths_vector found_files ;
     vector<MwColor> avg_pixels;
@@ -31,6 +31,8 @@ namespace {
                 a_file = found_files.at(++i);
                 cout << i << endl;
             }
+
+            //}
 
             // fmt::print("{:d}/{:d}: {:s}\n", i, found_files.size(), a_file.string());
 
