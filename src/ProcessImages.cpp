@@ -45,8 +45,12 @@ ProcessImages::execute()
     {
         {
             lock_guard<mutex> lock(process_mutex);
-            cout << i <<  "/" << no_of_files << endl;
+            //fmt::print("{}/{}: {}", i, no_of_files, *image_path);
             image_path = &file_paths.at(i++);
+            cout << i << "/" << no_of_files
+                 << ": " << *image_path
+                 << endl;
+
         }
 
         MwImage mw_image {*image_path};

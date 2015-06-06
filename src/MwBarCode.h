@@ -33,7 +33,7 @@ public:
     MwBarCode(int acc, const char *avv[]);
 
     void
-    read_in_dir(const path & in_dir, int max_level = -1, bool verbose = false);
+    read_in_dir(const path & in_dir, int max_level = -1, bool verbose = true);
 
     template<typename T>
     optional<T> get_option(const string & opt_name) const;

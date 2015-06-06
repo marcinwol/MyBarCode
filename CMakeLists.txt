@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 project(MwBarCode)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread -DMAGICKCORE_QUANTUM_DEPTH=16 -DMAGICKCORE_HDRI_ENABLE=false")
+
 
 find_package(Boost COMPONENTS filesystem system program_options regex REQUIRED)
 find_package(ImageMagick COMPONENTS Magick++ MagickCore REQUIRED)

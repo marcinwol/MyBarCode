@@ -306,7 +306,7 @@ MwImage::fast_is_image(const path &img_path)
 
     if (mw::is_image(img_path.string(), &empty_signature))
     {
-        //cout << " Image type: " <<  empty_signature.img_type << endl;
+        cout << " Image type: " <<  empty_signature.str() << endl;
         return is_good_type(empty_signature);
     }
 
@@ -326,7 +326,6 @@ MwImage::is_good_type(const Magick::Image& _image)
                   GOOD_IMAGE_TYPES.end(),
                   check_type);
 
-    return true;
 };
 
 bool
@@ -342,5 +341,4 @@ MwImage::is_good_type(const mw::Signature& _signature)
                   GOOD_IMAGE_TYPES.end(),
                   check_type);
 
-    return true;
 };

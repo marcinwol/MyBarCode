@@ -29,48 +29,29 @@ int main(int ac, const char* av[]) {
 
     // get all image paths in an input folder
     vector<path> found_files = app.getPaths();
-    ProcessImages process_images {1, found_files};
+    ProcessImages process_images {4, found_files};
 
     process_images.start_threads();
     process_images.join_threads();
 
-//
-//    size_t no_of_imgs = found_files.size();
-//
-//    for (const path& a_file: found_files)
-//    {
-//
-//        fmt::print("{:d}/{:d}: {:s}\n", i, no_of_imgs, a_file.string());
-//
-//        MwImage mwi {a_file};
-//
-//        avg_pixels.emplace_back(mwi.getAvgPixel());
-//
-//        ++i;
-//
-//    }
-//
-//    vector<thread> thrds;
-//
-//    for (size_t ti = 0; ti <= 10; ++ti)
-//    {
-//        thrds.push_back(thread(process_files));
-//    }
-//
-//
-//    for (thread& t: thrds)
-//    {
-//        t.join();
-//    }
+    ProcessImages::out_vector out_values;
+    out_values = process_images.get_results();
+
+    vector<MwColor> avg_pixels;
+
+    transform(out_values.begin(), out_values.end(),
+              back_inserter(avg_pixels),
+              [](const ProcessImages::out_struct& os) {return os.mwc;});
 
 
-//    Magick::Image bar_code;
-//
-//    bar_code = app.makeBarCode(avg_pixels);
+    Magick::Image bar_code;
+    bar_code = app.makeBarCode(avg_pixels);
 
-   // bar_code.write("/home/m/Desktop/out.png");
+    bar_code.write("/home/marcin/Desktop/out.png");
 
    // app.test();
+
+    cout << "test" << endl;
 
     return 0;
 };

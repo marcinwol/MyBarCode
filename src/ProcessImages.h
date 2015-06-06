@@ -16,6 +16,8 @@
 
 #include "MwImage.h"
 
+#include "../ext/format.h"
+
 using namespace std;
 using namespace boost::filesystem;
 
@@ -27,11 +29,15 @@ public:
         MwColor mwc;
     };
 
+    using out_vector = vector<out_struct>;
+
 
     explicit ProcessImages(size_t _no_of_threads, const vector<path>& _paths);
 
     void start_threads();
     void join_threads();
+
+    out_vector get_results() const {return out_values;};
     
 
 
@@ -40,7 +46,7 @@ private:
     vector<thread> processing_threads;
     vector<path> file_paths;
     size_t no_of_files;
-    vector<out_struct> out_values;
+    out_vector out_values;
     mutex process_mutex;
     atomic<size_t> i {0};
 
