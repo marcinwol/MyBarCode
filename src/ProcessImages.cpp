@@ -13,8 +13,29 @@ ProcessImages::ProcessImages(
     no_of_files = file_paths.size();
 }
 
+void
+ProcessImages::start_threads()
+{
+    for (size_t i = 0; i < no_of_threads; ++i)
+    {
+        //processing_threads.emplace_back(ref(execute));
+        void (ProcessImages::*fun)();
+        fun = &ProcessImages::execute;
+        processing_threads.emplace_back(fun, this);
+    }
+}
 
-bool
+
+void
+ProcessImages::join_threads()
+{
+    for (thread& t: processing_threads)
+    {
+        t.join();
+    }
+}
+
+void
 ProcessImages::execute()
 {
 
@@ -24,16 +45,17 @@ ProcessImages::execute()
     {
         {
             lock_guard<mutex> lock(process_mutex);
+            cout << i <<  "/" << no_of_files << endl;
             image_path = &file_paths.at(i++);
         }
 
         MwImage mw_image {*image_path};
         MwColor avg_color = mw_image.getAvgPixel();
+        out_struct out_val {avg_color};
 
         {
             lock_guard<mutex> lock(process_mutex);
-            avg_pixels.push_back(avg_color);
+            out_values.push_back(out_val);
         }
     }
-
 }

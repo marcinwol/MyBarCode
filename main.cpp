@@ -29,7 +29,10 @@ int main(int ac, const char* av[]) {
 
     // get all image paths in an input folder
     vector<path> found_files = app.getPaths();
-    ProcessImages process_images {0, found_files};
+    ProcessImages process_images {1, found_files};
+
+    process_images.start_threads();
+    process_images.join_threads();
 
 //
 //    size_t no_of_imgs = found_files.size();
