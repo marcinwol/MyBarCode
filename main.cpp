@@ -21,7 +21,7 @@ int main(int ac, const char* av[]) {
 
     auto in_dir         = app.get_option<path>("in-dir");
     auto out_img        = app.get_option<path>("out-file");
-    auto no_of_threads  = app.get_option<int>("threads");
+    auto no_of_threads  = app.get_option<size_t>("threads");
 
 
     if (in_dir)

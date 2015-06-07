@@ -29,7 +29,7 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
              "produce help message")
             ("in-dir,i",  po::value<path>()->default_value(current_path()),
              "input folder")
-            ("threads,t",  po::value<int>()->default_value(1),
+            ("threads,t",  po::value<size_t>()->default_value(1),
              "Numper of image processing threads: 1 or more")
             ("out-file,o",  po::value<path>()->default_value(default_output_file),
              "ouput image file that will be bar code generated")
@@ -88,6 +88,9 @@ template optional<bool>
 
 template optional<path>
         MwBarCode::get_option<path>(const string & opt_name) const;
+
+template optional<size_t>
+        MwBarCode::get_option<size_t>(const string & opt_name) const;
 
 void
 MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
