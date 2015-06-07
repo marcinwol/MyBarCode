@@ -293,7 +293,7 @@ MwImage::getAvgPixel() const {
 
    // cout << sum_red << " " << sum_green << " " << sum_blue  << endl;
 
-    MwColor mwc { sum_red, sum_green, sum_blue};
+    MwColor mwc {sum_red, sum_green, sum_blue};
 
     return mwc;
 }
@@ -306,7 +306,7 @@ MwImage::fast_is_image(const path &img_path)
 
     if (mw::is_image(img_path.string(), &empty_signature))
     {
-        cout << " Image type: " <<  empty_signature.str() << endl;
+        //cout << " Image type: " <<  empty_signature.str() << endl;
         return is_good_type(empty_signature);
     }
 

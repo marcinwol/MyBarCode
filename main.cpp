@@ -20,6 +20,8 @@ int main(int ac, const char* av[]) {
     }
 
     auto in_dir         = app.get_option<path>("in-dir");
+    auto out_img        = app.get_option<path>("out-file");
+    auto no_of_threads  = app.get_option<int>("threads");
 
 
     if (in_dir)
@@ -27,11 +29,17 @@ int main(int ac, const char* av[]) {
         app.read_in_dir(*in_dir);
     }
 
+    if (*no_of_threads < 1)
+    {
+        *no_of_threads = 1;
+    }
 
 
     // get all image paths in an input folder
     vector<path> found_files = app.getPaths();
-    ProcessImages process_images {1, found_files};
+
+    // create image processing threads
+    ProcessImages process_images {2, found_files};
 
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
@@ -58,7 +66,8 @@ int main(int ac, const char* av[]) {
     Magick::Image bar_code;
     bar_code = app.makeBarCode(avg_pixels);
 
-    bar_code.write("/home/marcin/Desktop/out.png");
+
+    bar_code.write((*out_img).string());
 
    // app.test();
 

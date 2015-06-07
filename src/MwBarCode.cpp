@@ -11,7 +11,8 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
 {
 
     po::positional_options_description p;
-    p.add("in-dir", -1);
+    p.add("in-dir", 1);
+    p.add("out-file", 1);
 
     po::options_description desc("mwdcmconverter - allowed options"
                                          "\n"
@@ -20,15 +21,20 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
                                          ""
     );
 
+    path default_output_file;
+    default_output_file = current_path() / path("_barcode.png");
+
     desc.add_options()
             ("help,h", po::value<bool>()->implicit_value(true),
              "produce help message")
             ("in-dir,i",  po::value<path>()->default_value(current_path()),
              "input folder")
+            ("threads,t",  po::value<int>()->default_value(1),
+             "Numper of image processing threads: 1 or more")
+            ("out-file,o",  po::value<path>()->default_value(default_output_file),
+             "ouput image file that will be bar code generated")
             ("out-format,T", po::value<string>()->default_value("TIFF"),
              "output image format (e.g. TIFF, PNG, JPEG)")
-            ("append-dpi", po::bool_switch()->default_value(false),
-             "append DPI to the output filename")
             ("verbose,v", po::bool_switch()->default_value(false),
              "verbose output");
 
@@ -48,6 +54,8 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
         return;
     }
 
+    optional<int> no_of_threads;
+    no_of_threads = get_option<int>("threads");
 
     options_ok = true;
 
