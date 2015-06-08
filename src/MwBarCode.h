@@ -30,11 +30,18 @@ public:
     bool use_only_images  {true};
     bool options_ok       {false};
 
+    static const int DEFAULT_LEVEL   = -1;
+    static const bool DEFAULT_VERBOSE = false;
+    static const bool DEFAULT_CHECK_TYPE = true;
+
 
     MwBarCode(int acc, const char *avv[]);
 
     void
-    read_in_dir(const path & in_dir, int max_level = -1, bool verbose = true);
+    read_in_dir(const path & in_dir,
+                bool check_types = DEFAULT_CHECK_TYPE,
+                int max_level = DEFAULT_LEVEL,
+                bool verbose = DEFAULT_VERBOSE);
 
     template<typename T>
     optional<T> get_option(const string & opt_name) const;

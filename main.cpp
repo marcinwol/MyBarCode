@@ -21,11 +21,16 @@ int main(int ac, const char* av[]) {
     auto in_dir         = app.get_option<path>("in-dir");
     auto out_img        = app.get_option<path>("out-file");
     auto no_of_threads  = app.get_option<size_t>("threads");
+    auto check_types    = app.get_option<bool>("check-types");
+    auto verbose        = app.get_option<bool>("verbose");
 
 
     if (in_dir)
     {
-        app.read_in_dir(*in_dir);
+        app.read_in_dir(*in_dir,
+                        *check_types,
+                        MwBarCode::DEFAULT_LEVEL,
+                        *verbose);
     }
 
     if (*no_of_threads < 1)

@@ -31,6 +31,8 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
              "input folder")
             ("threads,t",  po::value<size_t>()->default_value(1),
              "Numper of image processing threads: 1 or more")
+            ("check-types,c",  po::bool_switch()->default_value(falsegit),
+             "Check if a files are actually images that we can use.")
             ("out-file,o",  po::value<path>()->default_value(default_output_file),
              "ouput image file that will be bar code generated")
             ("out-format,T", po::value<string>()->default_value("TIFF"),
@@ -90,14 +92,15 @@ template optional<size_t>
         MwBarCode::get_option<size_t>(const string & opt_name) const;
 
 void
-MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
+MwBarCode::read_in_dir(const path & in_dir, bool check_types,
+                       int max_level, bool verbose)
 {
     paths_vector  all_found_paths {};
     all_found_paths = mw::fs::get_all_paths_fts2(in_dir, max_level, verbose);
 
     // we want only images, so filter out all paths that belong
     // to non-image file types.
-    if (use_only_images)
+    if (use_only_images && check_types)
     {
         paths_vector::const_iterator it_begin = all_found_paths.begin();
         paths_vector::const_iterator it_end   = all_found_paths.end();
