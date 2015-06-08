@@ -115,8 +115,9 @@ MwBarCode::read_in_dir(const path & in_dir, int max_level, bool verbose)
 
 }
 
+template<typename T>
 Magick::Image
-MwBarCode::makeBarCode(const vector<MwColor>& avg_pixels) const
+MwBarCode::makeBarCode(const vector<T>& avg_pixels) const
 {
     size_t columns {avg_pixels.size()};
     size_t rows    {200};
@@ -138,7 +139,7 @@ MwBarCode::makeBarCode(const vector<MwColor>& avg_pixels) const
 
     for (size_t ci = 0; ci < columns; ++ci)
     {
-        MwColor color {avg_pixels.at(ci)};
+        MwColor color = MwColor(avg_pixels.at(ci));
 
         for (size_t ri = 0; ri < rows; ++ri)
         {
@@ -150,8 +151,14 @@ MwBarCode::makeBarCode(const vector<MwColor>& avg_pixels) const
 
     return image;
 
-
 }
+
+
+template Magick::Image
+MwBarCode::makeBarCode(const vector<MwColor>& avg_pixels) const;
+
+template Magick::Image
+MwBarCode::makeBarCode(const vector<ProcessImages::out_struct>& avg_pixels) const;
 
 
 void

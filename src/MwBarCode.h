@@ -10,6 +10,7 @@
 
 #include "MwImage.h"
 #include "utils.h"
+#include "ProcessImages.h"
 
 #include "../ext/format.h"
 
@@ -42,7 +43,9 @@ public:
     const paths_vector &
     getPaths() const {return found_paths;}
 
-    Magick::Image makeBarCode(const vector<MwColor>& avg_pixels) const;
+    template<typename T>
+    Magick::Image
+    makeBarCode(const vector<T>& avg_pixels) const;
 
 
     void test();

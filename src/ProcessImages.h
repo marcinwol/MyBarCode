@@ -27,6 +27,7 @@ public:
     struct out_struct
     {
         MwColor mwc;
+        explicit operator MwColor() const {return mwc;}
     };
 
     using out_vector = vector<out_struct>;

@@ -3,7 +3,6 @@
 
 
 #include "src/MwBarCode.h"
-#include "src/ProcessImages.h"
 
 using namespace Magick;
 using namespace std::chrono;
@@ -56,15 +55,8 @@ int main(int ac, const char* av[]) {
     ProcessImages::out_vector out_values;
     out_values = process_images.get_results();
 
-    vector<MwColor> avg_pixels;
-
-    transform(out_values.begin(), out_values.end(),
-              back_inserter(avg_pixels),
-              [](const ProcessImages::out_struct& os) {return os.mwc;});
-
-
     Magick::Image bar_code;
-    bar_code = app.makeBarCode(avg_pixels);
+    bar_code = app.makeBarCode(out_values);
 
 
     bar_code.write((*out_img).string());
