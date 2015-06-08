@@ -54,9 +54,6 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
         return;
     }
 
-    optional<int> no_of_threads;
-    no_of_threads = get_option<int>("threads");
-
     options_ok = true;
 
 }
