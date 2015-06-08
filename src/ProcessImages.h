@@ -44,10 +44,11 @@ public:
 
 private:
     size_t no_of_threads {1};
-    vector<thread> processing_threads;
     vector<path> file_paths;
-    size_t no_of_files;
+    vector<thread> processing_threads;
     out_vector out_values;
+
+    size_t no_of_files;
     mutex process_mutex;
     atomic<size_t> i {0};
 
