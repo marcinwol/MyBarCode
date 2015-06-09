@@ -15,10 +15,10 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
     p.add("out-file", 1);
 
     po::options_description desc("mwdcmconverter - allowed options"
-                                         "\n"
-                                         "Examples\n"
-                                         "mwdcmconverter ~/Desktop/test2/ -o ~/Desktop/tiffs --append-dpi --append-distance=12.8\n"
-                                         ""
+                                 "\n"
+                                 "Examples\n"
+                                 "mwdcmconverter ~/Desktop/test2/ -o ~/Desktop/tiffs --append-dpi --append-distance=12.8\n"
+                                 ""
     );
 
     path default_output_file;
@@ -102,14 +102,42 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types,
     // to non-image file types.
     if (use_only_images && check_types)
     {
-        paths_vector::const_iterator it_begin = all_found_paths.begin();
-        paths_vector::const_iterator it_end   = all_found_paths.end();
+        size_t no_of_paths = all_found_paths.size();
 
-        auto is_image_lmd = [&](const path& a_path)
-                                {return MwImage::fast_is_image(a_path);};
+        for (size_t i = 0; i< no_of_paths; ++i)
+        {
+            const path& _path = all_found_paths.at(i);
+
+            if (verbose) {
+                cout << "Check if image type of interest: ";
+                cout << i << "/" << no_of_paths << ": " << _path << " ... ";
+            }
+
+            if (MwImage::fast_is_image(_path))
+            {
+                if (verbose) {
+                    cout << " - this is good.";
+                }
+
+                found_paths.push_back(_path);
+            }
+            else
+            {
+                if (verbose) {
+                    cout << " - dont want this.";
+                }
+            }
+
+            if (verbose) {
+                cout << endl;
+            }
 
 
-        copy_if(it_begin, it_end, back_inserter(found_paths), is_image_lmd);
+
+
+
+        }
+
     }
     else
     {
