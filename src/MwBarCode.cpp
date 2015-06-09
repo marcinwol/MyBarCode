@@ -31,7 +31,7 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
              "input folder")
             ("threads,t",  po::value<size_t>()->default_value(1),
              "Numper of image processing threads: 1 or more")
-            ("check-types,c",  po::bool_switch()->default_value(falsegit),
+            ("check-types,c",  po::bool_switch()->default_value(false),
              "Check if a files are actually images that we can use.")
             ("out-file,o",  po::value<path>()->default_value(default_output_file),
              "ouput image file that will be bar code generated")
