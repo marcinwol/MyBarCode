@@ -11,6 +11,7 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
 {
 
     po::positional_options_description p;
+
     p.add("in-dir", 1);
     p.add("out-file", 1);
 
