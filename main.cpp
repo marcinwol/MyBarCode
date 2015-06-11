@@ -43,7 +43,9 @@ int main(int ac, const char* av[]) {
     vector<path> found_files = app.getPaths();
 
     // create image processing threads
-    ProcessImages process_images {*no_of_threads, found_files};
+    ProcessImages process_images {*no_of_threads,
+                                  found_files,
+                                  *verbose};
 
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();

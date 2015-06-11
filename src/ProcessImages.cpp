@@ -6,9 +6,12 @@
 
 
 ProcessImages::ProcessImages(
-        size_t _no_of_threads, const vector<path>& _paths) :
+        size_t _no_of_threads,
+        const vector<path>& _paths,
+        bool _verbose) :
             no_of_threads {_no_of_threads}, file_paths {_paths},
-            out_values(_paths.size(), out_struct())
+            out_values(_paths.size(), out_struct()),
+            verbose {_verbose}
 {
 
     no_of_files = file_paths.size();
@@ -48,9 +51,17 @@ ProcessImages::execute()
             lock_guard<mutex> lock(process_mutex);
             //fmt::print("{}/{}: {}", i, no_of_files, *image_path);
             image_path = &file_paths.at(i++);
-            cout << i << "/" << no_of_files
-                 << ": " << *image_path
-                 << endl;
+
+            if (verbose)
+            {
+                cout << "Thread id: "
+                     << this_thread::get_id()
+                     << ": File " << i << "/" << no_of_files
+                     << ": " << *image_path
+                     << endl;
+            }
+
+
         }
 
         MwImage mw_image {*image_path};

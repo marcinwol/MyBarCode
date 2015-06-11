@@ -30,10 +30,14 @@ public:
         explicit operator MwColor() const {return mwc;}
     };
 
+
+
     using out_vector = vector<out_struct>;
 
 
-    explicit ProcessImages(size_t _no_of_threads, const vector<path>& _paths);
+    explicit ProcessImages(size_t _no_of_threads,
+                           const vector<path>& _paths,
+                           bool _verbose);
 
     void start_threads();
     void join_threads();
@@ -45,6 +49,7 @@ public:
 private:
     size_t no_of_threads {1};
     vector<path> file_paths;
+    bool verbose;
     vector<thread> processing_threads;
     out_vector out_values;
 
