@@ -30,8 +30,8 @@ public:
     bool use_only_images  {true};
     bool options_ok       {false};
 
-    static const int DEFAULT_LEVEL   = -1;
-    static const bool DEFAULT_VERBOSE = false;
+    static const int  DEFAULT_LEVEL      = -1;
+    static const bool DEFAULT_VERBOSE    = false;
     static const bool DEFAULT_CHECK_TYPE = true;
 
 
@@ -49,6 +49,9 @@ public:
 
     const paths_vector &
     getPaths() const {return found_paths;}
+
+
+    void sort_parhs();
 
     template<typename T>
     Magick::Image

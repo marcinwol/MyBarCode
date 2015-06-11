@@ -147,6 +147,28 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types,
 
 }
 
+
+void
+MwBarCode::sort_parhs()
+{
+
+    size_t no_of_paths = found_paths.size();
+
+    MwImage::properties_map::iterator it;
+
+    for (size_t i = 0; i < no_of_paths; ++i) {
+        const path &_path = found_paths.at(i);
+        MwImage mwi{_path};
+
+        const MwImage::properties_map &props = mwi.getProperties();
+
+        //it = props.find("exif:DateTime");
+
+
+
+    };
+}
+
 template<typename T>
 Magick::Image
 MwBarCode::makeBarCode(const vector<T>& avg_pixels) const

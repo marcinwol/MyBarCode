@@ -24,6 +24,10 @@ int main(int ac, const char* av[]) {
     auto check_types    = app.get_option<bool>("check-types");
     auto verbose        = app.get_option<bool>("verbose");
 
+    if (*no_of_threads < 1)
+    {
+        *no_of_threads = 1;
+    }
 
     if (in_dir)
     {
@@ -33,11 +37,9 @@ int main(int ac, const char* av[]) {
                         *verbose);
     }
 
-    if (*no_of_threads < 1)
-    {
-        *no_of_threads = 1;
-    }
 
+    // sort found paths according to date exif:DateTime
+    app.sort_parhs();
 
     // get all image paths in an input folder
     vector<path> found_files = app.getPaths();
