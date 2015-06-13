@@ -154,7 +154,9 @@ MwBarCode::sort_parhs()
 
     size_t no_of_paths = found_paths.size();
 
-    MwImage::properties_map::iterator it;
+    MwImage::properties_map::const_iterator it;
+
+    map<time_t, path> sorted_paths;
 
     for (size_t i = 0; i < no_of_paths; ++i) {
         const path &_path = found_paths.at(i);
@@ -162,11 +164,44 @@ MwBarCode::sort_parhs()
 
         const MwImage::properties_map &props = mwi.getProperties();
 
-        //it = props.find("exif:DateTime");
+        it = props.find("exif:DateTime");
 
+        if (it != props.end())
+        {
+            string datetime = it->second;
+            cout << datetime << endl;
 
+            // change string into time
+            tm t {0};
+            istringstream ss {datetime};
+            //ss >> std::get_time(&t, "%Y:%m:%d %H:%M:%S");
+            strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
+
+            time_t c_t = mktime(&t);
+            //cut << ctime(&c_t) << endl;
+
+            sorted_paths.insert({c_t, _path});
+
+        }
 
     };
+
+    // cleaer found paths as they are unsorted
+    // and pupulate it with paths in ord
+//    found_paths.clear();
+//
+//    for (const pair<time_t, path>& sp: sorted_paths)
+////    {
+////        cout << ctime(&(sp.first)) <<": " << sp.second << endl;
+////    }
+
+
+//    for (const pair<time_t, path>& sp: sorted_paths)
+//    {
+//        cout << ctime(&(sp.first)) <<": " << sp.second << endl;
+//    }
+
+
 }
 
 template<typename T>
