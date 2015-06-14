@@ -23,6 +23,7 @@ int main(int ac, const char* av[]) {
     auto no_of_threads  = app.get_option<size_t>("threads");
     auto check_types    = app.get_option<bool>("check-types");
     auto verbose        = app.get_option<bool>("verbose");
+    auto sort_files     = app.get_option<bool>("sort-files");
 
     if (*no_of_threads < 1)
     {
@@ -40,11 +41,15 @@ int main(int ac, const char* av[]) {
     }
 
 
-    // sort found paths according to date exif:DateTime
-    app.sort_parhs();
+    if (*sort_files)
+    {
+        // sort found paths according to date exif:DateTime
+        app.sort_parhs();
+    }
+
 
     // get all image paths in an input folder
-    vector<path> found_files = app.getPaths();
+    MwBarCode::paths_vector found_files = app.getPaths();
 
     // create image processing threads
     ProcessImages process_images {*no_of_threads,

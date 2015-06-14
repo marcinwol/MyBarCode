@@ -46,6 +46,8 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
              "ouput image file that will be bar code generated")
             ("out-format,T", po::value<string>()->default_value("TIFF"),
              "output image format (e.g. TIFF, PNG, JPEG)")
+            ("sort-files,s", po::bool_switch()->default_value(false),
+             "sort image files by date of creation")
             ("verbose,v", po::bool_switch()->default_value(false),
              "verbose output");
 
@@ -182,6 +184,12 @@ MwBarCode::sort_parhs()
             {
                 string datetime = it->second;
 
+                if (datetime.empty())
+                {
+                    continue;
+                }
+
+
                 if (VERBOSE)
                 {
                     cout << "DateTime: " << datetime << " .. read as ";
@@ -196,7 +204,10 @@ MwBarCode::sort_parhs()
 
                 if (VERBOSE)
                 {
-                    cout << ctime(&c_t) << endl;
+                    string time_s = ctime(&c_t);
+                    time_s.erase(time_s.size() - 1);
+
+                    cout << time_s << endl;
                 }
 
                 sorted_paths.insert({c_t, _path});
