@@ -29,6 +29,8 @@ int main(int ac, const char* av[]) {
         *no_of_threads = 1;
     }
 
+    MwBarCode::VERBOSE = *verbose;
+
     if (in_dir)
     {
         app.read_in_dir(*in_dir,

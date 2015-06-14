@@ -5,6 +5,10 @@ MwBarCode::TIME_DATE_EXIF_FILEDS = {"exif:DateTime",
                                     "exif:DateTimeDigitized",
                                     "exif:DateTimeOriginal"};
 
+
+bool MwBarCode::VERBOSE = MwBarCode::DEFAULT_VERBOSE;
+
+
 MwBarCode::MwBarCode(int acc, const char *avv[])
 {
     ParseOptions(acc, avv);
@@ -160,7 +164,6 @@ MwBarCode::sort_parhs()
 
     for (size_t i = 0; i < no_of_paths; ++i)
     {
-
         const path &_path = found_paths.at(i);
 
         MwImage mwi {_path, MwImage::DO_NOT_READ_IMG};
@@ -178,18 +181,34 @@ MwBarCode::sort_parhs()
             if (it != props.end())
             {
                 string datetime = it->second;
-                cout << datetime << endl;
+
+                if (VERBOSE)
+                {
+                    cout << "DateTime: " << datetime << " .. read as ";
+                }
+
 
                 // change string into time
                 tm t{0};
                 strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
 
                 time_t c_t = mktime(&t);
-                //cut << ctime(&c_t) << endl;
+
+                if (VERBOSE)
+                {
+                    cout << ctime(&c_t) << endl;
+                }
 
                 sorted_paths.insert({c_t, _path});
 
                 break;
+            }
+            else
+            {
+                if (VERBOSE)
+                {
+                    cout << "Field " << field << " not found in " << _path << endl;
+                }
             }
         }
 
@@ -204,7 +223,6 @@ MwBarCode::sort_parhs()
     // clear found paths as they are unsorted
     // and pupulate it with paths in ord
     found_paths.clear();
-
 
     for (const pair<time_t, path>& sp: sorted_paths)
     {
