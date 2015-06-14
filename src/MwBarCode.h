@@ -34,6 +34,8 @@ public:
     static const bool DEFAULT_VERBOSE    = false;
     static const bool DEFAULT_CHECK_TYPE = true;
 
+    static const vector<string> TIME_DATE_EXIF_FILEDS;
+
 
     MwBarCode(int acc, const char *avv[]);
 

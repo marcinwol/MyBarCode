@@ -23,10 +23,13 @@ public:
 
     using properties_map = std::map<string, string>;
 
+    static const bool READ_IMG = true;
+    static const bool DO_NOT_READ_IMG = false;
+
     MwImage(){}
 
-    explicit MwImage(const string & _img_path);
-    explicit MwImage(const path   & _img_path);
+    explicit MwImage(const string & _img_path, bool _read = READ_IMG);
+    explicit MwImage(const path   & _img_path, bool _read = READ_IMG);
 
 
     void read();

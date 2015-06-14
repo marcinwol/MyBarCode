@@ -1,5 +1,9 @@
 #include "MwBarCode.h"
 
+const vector<string>
+MwBarCode::TIME_DATE_EXIF_FILEDS = {"exif:DateTime",
+                                    "exif:DateTimeDigitized",
+                                    "exif:DateTimeOriginal"};
 
 MwBarCode::MwBarCode(int acc, const char *avv[])
 {
@@ -133,10 +137,6 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types,
                 cout << endl;
             }
 
-
-
-
-
         }
 
     }
@@ -158,48 +158,58 @@ MwBarCode::sort_parhs()
 
     map<time_t, path> sorted_paths;
 
-    for (size_t i = 0; i < no_of_paths; ++i) {
+    for (size_t i = 0; i < no_of_paths; ++i)
+    {
+
         const path &_path = found_paths.at(i);
-        MwImage mwi{_path};
+
+        MwImage mwi {_path, MwImage::DO_NOT_READ_IMG};
+
+        mwi.ping();
+        mwi.readProperties();
 
         const MwImage::properties_map &props = mwi.getProperties();
 
-        it = props.find("exif:DateTime");
-
-        if (it != props.end())
+        for (string field: TIME_DATE_EXIF_FILEDS)
         {
-            string datetime = it->second;
-            cout << datetime << endl;
 
-            // change string into time
-            tm t {0};
-            istringstream ss {datetime};
-            //ss >> std::get_time(&t, "%Y:%m:%d %H:%M:%S");
-            strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
+            it = props.find(field);
 
-            time_t c_t = mktime(&t);
-            //cut << ctime(&c_t) << endl;
+            if (it != props.end())
+            {
+                string datetime = it->second;
+                cout << datetime << endl;
 
-            sorted_paths.insert({c_t, _path});
+                // change string into time
+                tm t{0};
+                strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
 
+                time_t c_t = mktime(&t);
+                //cut << ctime(&c_t) << endl;
+
+                sorted_paths.insert({c_t, _path});
+
+                break;
+            }
         }
 
-    };
-
-    // cleaer found paths as they are unsorted
-    // and pupulate it with paths in ord
-//    found_paths.clear();
-//
-//    for (const pair<time_t, path>& sp: sorted_paths)
-////    {
-////        cout << ctime(&(sp.first)) <<": " << sp.second << endl;
-////    }
-
+    }
 
 //    for (const pair<time_t, path>& sp: sorted_paths)
 //    {
 //        cout << ctime(&(sp.first)) <<": " << sp.second << endl;
 //    }
+
+
+    // clear found paths as they are unsorted
+    // and pupulate it with paths in ord
+    found_paths.clear();
+
+
+    for (const pair<time_t, path>& sp: sorted_paths)
+    {
+        found_paths.push_back(sp.second);
+    }
 
 
 }

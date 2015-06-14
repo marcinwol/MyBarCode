@@ -12,13 +12,16 @@ namespace {
 
 
 
-MwImage::MwImage(const string& _img_path):img_path(_img_path), mimg(_img_path)
+MwImage::MwImage(const string& _img_path, bool _read):img_path(_img_path), mimg(_img_path)
 {
-    read();
-    getPixelCatch();
+    if (_read)
+    {
+        read();
+        getPixelCatch();
+    }
 }
 
-MwImage::MwImage(const path& _img_path):MwImage(_img_path.string())
+MwImage::MwImage(const path& _img_path, bool _read):MwImage(_img_path.string(), _read)
 {
 
 }
