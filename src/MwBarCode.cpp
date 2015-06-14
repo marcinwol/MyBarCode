@@ -192,6 +192,7 @@ MwBarCode::sort_parhs()
 
                 if (VERBOSE)
                 {
+                    cout << i << "/" << no_of_paths << ": ";
                     cout << "DateTime: " << datetime << " .. read as ";
                 }
 
