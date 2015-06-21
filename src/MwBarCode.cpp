@@ -23,11 +23,11 @@ MwBarCode::ParseOptions(int acc, const char *avv[])
     p.add("in-dir", 1);
     p.add("out-file", 1);
 
-    po::options_description desc("mwdcmconverter - allowed options"
+    po::options_description desc("mwbarcode - allowed options"
                                  "\n"
-                                 "Examples\n"
-                                 "mwdcmconverter ~/Desktop/test2/ -o ~/Desktop/tiffs --append-dpi --append-distance=12.8\n"
-                                 ""
+                                 "Examples:\n"
+                                 "mwbarcode /home/m/in_dir_with_images ./barcode.png -t 1 -v -s\n"
+                                 "mwbarcode /home/m/in_dir_with_images ./barcode.png -t 4 -v -s -c\n"
     );
 
     path default_output_file;
