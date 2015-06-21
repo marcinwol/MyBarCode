@@ -26,7 +26,7 @@ cd mwbarcode
 cmake -DCMAKE_INSTALL_PREFIX=/opt/mwimage
 make
 ````
-`CMAKE_INSTALL_PREFIX` specifices where the binary should be installed.
+`CMAKE_INSTALL_PREFIX` specifies where the binary should be installed.
 
 
 #### Install
