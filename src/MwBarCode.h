@@ -49,6 +49,8 @@ public:
     template<typename T>
     optional<T> get_option(const string & opt_name) const;
 
+    bool has_images() const {return found_paths.empty();};
+
 
     const paths_vector &
     getPaths() const {return found_paths;}

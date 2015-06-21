@@ -40,6 +40,12 @@ int main(int ac, const char* av[]) {
                         MwBarCode::DEFAULT_LEVEL);
     }
 
+    if (!app.has_images())
+    {
+        cout << "No image files found in: " << *in_dir << endl;
+        return 0;
+    }
+
 
     if (*sort_files)
     {
