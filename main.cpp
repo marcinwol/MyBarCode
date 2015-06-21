@@ -34,10 +34,10 @@ int main(int ac, const char* av[]) {
 
     if (in_dir)
     {
+        // read in all image files found in the *in_dir
         app.read_in_dir(*in_dir,
                         *check_types,
-                        MwBarCode::DEFAULT_LEVEL,
-                        *verbose);
+                        MwBarCode::DEFAULT_LEVEL);
     }
 
 
@@ -59,6 +59,7 @@ int main(int ac, const char* av[]) {
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
+    // start processing the images in one or more threads
     process_images.start_threads();
     process_images.join_threads();
 
@@ -68,18 +69,17 @@ int main(int ac, const char* av[]) {
 
     fmt::print("Time measured: {:d}\n", duration);
 
+    // get avarage values of colorsfrom the images
     ProcessImages::out_vector out_values;
     out_values = process_images.get_results();
 
+    // make the barcode
     Magick::Image bar_code;
     bar_code = app.makeBarCode(out_values);
 
 
+    // save it
     bar_code.write((*out_img).string());
-
-   // app.test();
-
-    cout << "test" << endl;
 
     return 0;
 };

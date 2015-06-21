@@ -44,8 +44,7 @@ public:
     void
     read_in_dir(const path & in_dir,
                 bool check_types = DEFAULT_CHECK_TYPE,
-                int max_level = DEFAULT_LEVEL,
-                bool verbose = DEFAULT_VERBOSE);
+                int max_level = DEFAULT_LEVEL);
 
     template<typename T>
     optional<T> get_option(const string & opt_name) const;

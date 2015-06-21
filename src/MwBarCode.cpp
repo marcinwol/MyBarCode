@@ -103,9 +103,11 @@ template optional<size_t>
         MwBarCode::get_option<size_t>(const string & opt_name) const;
 
 void
-MwBarCode::read_in_dir(const path & in_dir, bool check_types,
-                       int max_level, bool verbose)
+MwBarCode::read_in_dir(const path & in_dir, bool check_types, int max_level)
 {
+
+    bool verbose = MwBarCode::VERBOSE;
+
     paths_vector  all_found_paths {};
     all_found_paths = mw::fs::get_all_paths_fts2(in_dir, max_level, verbose);
 
