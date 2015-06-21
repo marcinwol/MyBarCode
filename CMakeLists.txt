@@ -27,3 +27,5 @@ if(ImageMagick_FOUND)
     target_link_libraries(mwbarcode ${ImageMagick_LIBRARIES})
     MESSAGE( STATUS "ImageMagick_LIBRARIES:         " ${ImageMagick_LIBRARIES} )
 endif()
+
+install (TARGETS mwbarcode DESTINATION /opt/mwimage)
