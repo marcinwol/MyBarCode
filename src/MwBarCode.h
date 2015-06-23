@@ -25,7 +25,9 @@ class MwBarCode {
 
 public:
 
+
     using paths_vector = vector<path>;
+    using sorted_vector = vector<pair<path, time_t>>;
 
     bool use_only_images  {true};
     bool options_ok       {false};
@@ -70,6 +72,7 @@ public:
 private:
 
     paths_vector found_paths;
+    sorted_vector sorted_paths;
     po::variables_map vm;
 
     void ParseOptions(int acc, const char *avv[]);

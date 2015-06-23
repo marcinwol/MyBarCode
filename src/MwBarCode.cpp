@@ -164,8 +164,6 @@ MwBarCode::sort_parhs()
 
     MwImage::properties_map::const_iterator it;
 
-    map<time_t, path> sorted_paths;
-
     for (size_t i = 0; i < no_of_paths; ++i)
     {
         const path &_path = found_paths.at(i);
@@ -213,7 +211,8 @@ MwBarCode::sort_parhs()
                     cout << time_s << endl;
                 }
 
-                sorted_paths.insert({c_t, _path});
+
+                sorted_paths.push_back(make_pair(_path, c_t));
 
                 break;
             }
@@ -228,19 +227,14 @@ MwBarCode::sort_parhs()
 
     }
 
-//    for (const pair<time_t, path>& sp: sorted_paths)
-//    {
-//        cout << ctime(&(sp.first)) <<": " << sp.second << endl;
-//    }
-
 
     // clear found paths as they are unsorted
     // and pupulate it with paths in ord
     found_paths.clear();
 
-    for (const pair<time_t, path>& sp: sorted_paths)
+    for (const pair<path, time_t>& sp: sorted_paths)
     {
-        found_paths.push_back(sp.second);
+        found_paths.push_back(sp.first);
     }
 
 
