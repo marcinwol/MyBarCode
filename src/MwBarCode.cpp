@@ -286,9 +286,10 @@ MwBarCode::addDates(Magick::Image& img)
     size_t columns {img.columns()};
     size_t rows    {img.rows()};
 
-    unsigned font_size = static_cast<unsigned>(rows * 0.1);
-    unsigned x_step    = static_cast<unsigned>(columns / 3.0);
-
+    //unsigned font_size = static_cast<unsigned>(rows * 0.1);
+    unsigned font_size = 14;
+    unsigned x_step    = static_cast<unsigned>(columns / 5.0);
+    unsigned x_offset  = (x_step - 68)/2;
 
 
     img.strokeWidth(1);
@@ -301,7 +302,7 @@ MwBarCode::addDates(Magick::Image& img)
     char buffer[40];
 
 
-    for(size_t x = 5; x <= columns ; x+=x_step)
+    for(size_t x = x_offset; x <= columns ; x+=x_step)
     {
         time_t timestamp = sorted_paths.at(x).second;
 
