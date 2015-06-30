@@ -245,7 +245,7 @@ Magick::Image
 MwBarCode::makeBarCode(const vector<T>& avg_pixels) const
 {
     size_t columns {avg_pixels.size()};
-    size_t rows    {BAR_HEIGHT};
+    size_t rows    {static_cast<size_t>(columns * BAR_HEIGHT_RATIO)};
 
     // Create base image
     Magick::Image image(Magick::Geometry(columns, rows), "white");
@@ -286,7 +286,7 @@ MwBarCode::addDates(Magick::Image& img)
     size_t columns {img.columns()};
     size_t rows    {img.rows()};
 
-    unsigned font_size = static_cast<unsigned>(rows*0.05);
+    unsigned font_size = static_cast<unsigned>(rows * 0.1);
     unsigned x_step    = static_cast<unsigned>(columns / 3.0);
 
 

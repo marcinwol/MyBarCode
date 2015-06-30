@@ -35,7 +35,7 @@ public:
     static const int  DEFAULT_LEVEL      = -1;
     static const bool DEFAULT_VERBOSE    = false;
     static const bool DEFAULT_CHECK_TYPE = true;
-    static const unsigned int BAR_HEIGHT = 200;
+    static constexpr double BAR_HEIGHT_RATIO = 0.42857;
 
     static bool VERBOSE;
 
