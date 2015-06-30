@@ -245,7 +245,7 @@ Magick::Image
 MwBarCode::makeBarCode(const vector<T>& avg_pixels) const
 {
     size_t columns {avg_pixels.size()};
-    size_t rows    {200};
+    size_t rows    {BAR_HEIGHT};
 
     // Create base image
     Magick::Image image(Magick::Geometry(columns, rows), "white");
@@ -277,6 +277,43 @@ MwBarCode::makeBarCode(const vector<T>& avg_pixels) const
     return image;
 
 }
+
+
+void
+MwBarCode::addDates(Magick::Image& img)
+{
+
+    size_t columns {img.columns()};
+    size_t rows    {img.rows()};
+
+    unsigned font_size = static_cast<unsigned>(rows*0.05);
+    unsigned x_step    = static_cast<unsigned>(columns / 3.0);
+
+
+
+    img.strokeWidth(1);
+    img.font("Helvetica");
+    img.fontPointsize(font_size);
+
+    img.draw(Magick::DrawableTextUnderColor(Magick::Color("red")));
+
+
+    char buffer[40];
+
+
+    for(size_t x = 5; x <= columns ; x+=x_step)
+    {
+        time_t timestamp = sorted_paths.at(x).second;
+
+        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
+
+        img.draw(Magick::DrawableText(x, rows - 5, buffer) );
+    }
+
+
+
+}
+
 
 
 template Magick::Image

@@ -83,6 +83,10 @@ int main(int ac, const char* av[]) {
     Magick::Image bar_code;
     bar_code = app.makeBarCode(out_values);
 
+    //Image bar_code( Geometry(800,200), Color("white") );
+
+    app.addDates(bar_code);
+
 
     // save it
     bar_code.write((*out_img).string());

@@ -35,6 +35,7 @@ public:
     static const int  DEFAULT_LEVEL      = -1;
     static const bool DEFAULT_VERBOSE    = false;
     static const bool DEFAULT_CHECK_TYPE = true;
+    static const unsigned int BAR_HEIGHT = 200;
 
     static bool VERBOSE;
 
@@ -56,6 +57,11 @@ public:
 
     const paths_vector &
     getPaths() const {return found_paths;}
+
+    const sorted_vector &
+    getSortedPaths() const {return sorted_paths;}
+
+    void addDates(Magick::Image& _img);
 
 
     void sort_parhs();
