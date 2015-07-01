@@ -287,33 +287,44 @@ MwBarCode::addDates(Magick::Image& img)
     size_t rows    {img.rows()};
 
     //unsigned font_size = static_cast<unsigned>(rows * 0.1);
-    unsigned font_size = 14;
+    unsigned font_size = 34;
     unsigned x_step    = static_cast<unsigned>(columns / 4.0);
-    unsigned x_offset  = (x_step - 68)/2;
+    unsigned x_offset  = (x_step - 188)/2 - 3;
+
+    cout << x_step << endl;
+    cout << x_offset << endl;
 
 
-    img.strokeWidth(0);
-    img.font("Helvetica");
+    img.strokeWidth(1);
+    img.font("Courier");
     img.fontPointsize(font_size);
-    img.strokeColor("black");
+    img.strokeColor("white");
     img.fillColor("black");
 
 
     std::list<Magick::Drawable> to_draw;
 
-    to_draw.push_back(Magick::DrawableTextUnderColor("white"));
+    //to_draw.push_back(Magick::DrawableTextUnderColor("white"));
 
 
     char buffer[40];
 
+//
+//    for(size_t x = x_offset; x <= columns ; x+=x_step)
+//    {
+//        time_t timestamp = sorted_paths.at(x).second;
+//
+//        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
+//
+//        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
+//    }
 
-    for(size_t x = x_offset; x <= columns ; x+=x_step)
+    for(size_t x = x_offset; x <= columns; x += x_step)
     {
-        time_t timestamp = sorted_paths.at(x).second;
-
-        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
-
-        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
+        cout << x << endl;
+        to_draw.push_back(Magick::DrawableText(x,
+                                               rows - 5,
+                                               "2015:12:29"));
     }
 
     img.draw(to_draw);
