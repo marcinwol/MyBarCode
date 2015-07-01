@@ -288,15 +288,20 @@ MwBarCode::addDates(Magick::Image& img)
 
     //unsigned font_size = static_cast<unsigned>(rows * 0.1);
     unsigned font_size = 14;
-    unsigned x_step    = static_cast<unsigned>(columns / 5.0);
+    unsigned x_step    = static_cast<unsigned>(columns / 4.0);
     unsigned x_offset  = (x_step - 68)/2;
 
 
-    img.strokeWidth(1);
+    img.strokeWidth(0);
     img.font("Helvetica");
     img.fontPointsize(font_size);
+    img.strokeColor("black");
+    img.fillColor("black");
 
-    img.draw(Magick::DrawableTextUnderColor(Magick::Color("red")));
+
+    std::list<Magick::Drawable> to_draw;
+
+    to_draw.push_back(Magick::DrawableTextUnderColor("white"));
 
 
     char buffer[40];
@@ -308,10 +313,10 @@ MwBarCode::addDates(Magick::Image& img)
 
         strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
 
-        img.draw(Magick::DrawableText(x, rows - 5, buffer) );
+        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
     }
 
-
+    img.draw(to_draw);
 
 }
 
