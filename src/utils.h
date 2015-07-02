@@ -153,6 +153,59 @@ namespace  mw {
    */
   std::string removeExtension(const bf::path & filename);
 
+
+
+
+    /**
+     * Split vector, list or deque into chunks of equal size
+     */
+    template <
+            typename T,
+            typename A,
+            template <typename , typename > class C
+    >
+    C<C<T,A>, allocator<C<T,A>>>
+    chunker(C<T,A>& c, const typename C<T,A>::size_type& k)
+    {
+
+        if (k <= 0)
+            throw domain_error("chunker() requires k > 0");
+
+
+        using INPUT_CONTAINER_TYPE = C<T,A>;
+        using INPUT_CONTAINER_VALUE_TYPE = typename INPUT_CONTAINER_TYPE::value_type;
+        using OUTPUT_CONTAINER_TYPE = C<INPUT_CONTAINER_TYPE,
+                allocator<INPUT_CONTAINER_TYPE>
+        >;
+
+        OUTPUT_CONTAINER_TYPE out_c;
+
+        auto chunkBeg = begin(c);
+
+        for (auto left=c.size(); left != 0; )
+        {
+            auto const skip = min(left,k);
+
+            INPUT_CONTAINER_TYPE sub_container;
+
+            back_insert_iterator<INPUT_CONTAINER_TYPE> back_v(sub_container);
+
+            copy_n(chunkBeg, skip, back_v);
+
+            out_c.push_back(sub_container);
+
+            left -= skip;
+            advance(chunkBeg, skip);
+
+        }
+
+        return out_c;
+    }
+
+
+
+
+
   /**
    * Filesystem utilities
    */
@@ -222,6 +275,7 @@ namespace  mw {
 
     map<string, string>
     getfileparts(const bf::path & _in_path);
+
 
 
 

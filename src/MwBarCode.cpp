@@ -156,6 +156,108 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types, int max_level)
 }
 
 
+
+time_t
+MwBarCode::readImageDate(path& img_path)
+{
+    MwImage mwi {img_path, MwImage::DO_NOT_READ_IMG};
+
+    mwi.ping();
+    mwi.readProperties();
+
+    time_t c_t;
+
+    const MwImage::properties_map &props = mwi.getProperties();
+
+    MwImage::properties_map::const_iterator it;
+
+    for (string field: TIME_DATE_EXIF_FILEDS) {
+
+        it = props.find(field);
+
+        if (it != props.end()) {
+            string datetime = it->second;
+
+            if (datetime.empty())  {
+                continue;
+            }
+
+            // change string into time
+            tm t{0};
+            strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
+
+            c_t = mktime(&t);
+
+            if (VERBOSE) {
+                string time_s = ctime(&c_t);
+                time_s.erase(time_s.size() - 1);
+
+                cout << time_s << endl;
+            }
+
+            break;
+        } else {
+            if (VERBOSE) {
+                cout << "Field " << field << " not found in "
+                     << img_path << endl;
+            }
+        }
+    }
+
+    return c_t;
+}
+
+void
+MwBarCode::sort_parhs2()
+{
+
+    size_t no_of_threads {2};
+    vector<thread> processing_threads;
+    mutex process_mutex;
+
+
+
+    vector<paths_vector> split_paths =
+            mw::chunker(found_paths, no_of_threads);
+
+    time_t (MwBarCode::*fun)(path&);
+
+    for (paths_vector& paths_sub_vector: split_paths)
+    {
+        vector<thread> processing_threads;
+
+        for (size_t i = 0; i < no_of_threads; ++i)
+        {
+
+        }
+    }
+
+
+    size_t no_of_paths = found_paths.size();
+
+
+
+    for (size_t i = 0; i < no_of_paths; ++i)
+    {
+        const path &_path = found_paths.at(i);
+
+
+
+    }
+
+
+    // clear found paths as they are unsorted
+    // and pupulate it with paths in ord
+    found_paths.clear();
+
+    for (const pair<path, time_t>& sp: sorted_paths)
+    {
+        found_paths.push_back(sp.first);
+    }
+
+
+}
+
 void
 MwBarCode::sort_parhs()
 {
@@ -168,62 +270,7 @@ MwBarCode::sort_parhs()
     {
         const path &_path = found_paths.at(i);
 
-        MwImage mwi {_path, MwImage::DO_NOT_READ_IMG};
 
-        mwi.ping();
-        mwi.readProperties();
-
-        const MwImage::properties_map &props = mwi.getProperties();
-
-        for (string field: TIME_DATE_EXIF_FILEDS)
-        {
-
-            it = props.find(field);
-
-            if (it != props.end())
-            {
-                string datetime = it->second;
-
-                if (datetime.empty())
-                {
-                    continue;
-                }
-
-
-                if (VERBOSE)
-                {
-                    cout << i << "/" << no_of_paths << ": ";
-                    cout << "DateTime: " << datetime << " .. read as ";
-                }
-
-
-                // change string into time
-                tm t{0};
-                strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
-
-                time_t c_t = mktime(&t);
-
-                if (VERBOSE)
-                {
-                    string time_s = ctime(&c_t);
-                    time_s.erase(time_s.size() - 1);
-
-                    cout << time_s << endl;
-                }
-
-
-                sorted_paths.push_back(make_pair(_path, c_t));
-
-                break;
-            }
-            else
-            {
-                if (VERBOSE)
-                {
-                    cout << "Field " << field << " not found in " << _path << endl;
-                }
-            }
-        }
 
     }
 

@@ -55,6 +55,10 @@ public:
     bool has_images() const {return !found_paths.empty();};
 
 
+    time_t
+    readImageDate(path& img_path);
+
+
     const paths_vector &
     getPaths() const {return found_paths;}
 
@@ -65,6 +69,7 @@ public:
 
 
     void sort_parhs();
+    void sort_parhs2();
 
     template<typename T>
     Magick::Image
@@ -82,6 +87,8 @@ private:
     po::variables_map vm;
 
     void ParseOptions(int acc, const char *avv[]);
+
+
 };
 
 
