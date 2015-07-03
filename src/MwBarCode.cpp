@@ -454,14 +454,9 @@ MwBarCode::addDates(Magick::Image& img)
     size_t columns {img.columns()};
     size_t rows    {img.rows()};
 
-    //unsigned font_size = static_cast<unsigned>(rows * 0.1);
-    unsigned font_size = 34;
-    unsigned x_step    = static_cast<unsigned>(columns / 4.0);
-    unsigned x_offset  = (x_step - 188)/2 - 3;
 
-    cout << x_step << endl;
-    cout << x_offset << endl;
-
+    // set font size proportionally to image height
+    unsigned font_size = static_cast<unsigned>(rows * 0.1);
 
     img.strokeWidth(1);
     img.font("Courier");
@@ -470,14 +465,37 @@ MwBarCode::addDates(Magick::Image& img)
     img.fillColor("black");
 
 
+    // measure the font width
+    // we use Courier so each date should be of equail width.
+    Magick::TypeMetric typeMetrick;
+    img.fontTypeMetrics("2015:12:29", &typeMetrick);
+
+    unsigned text_width = typeMetrick.textWidth();
+
+    unsigned no_of_dates = static_cast<unsigned>(columns / text_width);
+
+    cout << "no_of_dates" << no_of_dates << endl;
+
+    // use less than maximum number of dates possible
+    if (no_of_dates > 3)
+        no_of_dates -= 2;
+
+
+    // distance between each date
+    unsigned x_step    = static_cast<unsigned>(columns / no_of_dates);
+
+
+
+    // how to offset the dates so that they are equally spaced
+    // on the image borders
+    unsigned x_offset  = (x_step - text_width) / 2 - 3;
+
+    cout << "x_offset" << x_offset << endl;
     std::list<Magick::Drawable> to_draw;
-
-    //to_draw.push_back(Magick::DrawableTextUnderColor("white"));
-
 
     char buffer[40];
 
-//
+
 //    for(size_t x = x_offset; x <= columns ; x+=x_step)
 //    {
 //        time_t timestamp = sorted_paths.at(x).second;
@@ -487,9 +505,12 @@ MwBarCode::addDates(Magick::Image& img)
 //        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
 //    }
 
-    for(size_t x = x_offset; x <= columns; x += x_step)
+
+
+    for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
     {
-        cout << x << endl;
+        unsigned x = date_i * x_step + x_offset;
+
         to_draw.push_back(Magick::DrawableText(x,
                                                rows - 5,
                                                "2015:12:29"));
