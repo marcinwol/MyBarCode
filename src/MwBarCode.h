@@ -27,7 +27,8 @@ public:
 
 
     using paths_vector = vector<path>;
-    using sorted_vector = vector<pair<path, time_t>>;
+    using path_date_pair = pair<path, time_t>;
+    using sorted_vector = vector<path_date_pair>;
 
     bool use_only_images  {true};
     bool options_ok       {false};
@@ -88,6 +89,7 @@ private:
     po::variables_map vm;
 
     void ParseOptions(int acc, const char *avv[]);
+    void sortByDate(sorted_vector& _paths);
 
 
 };

@@ -166,7 +166,7 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
     mwi.ping();
     mwi.readProperties();
 
-    time_t c_t;
+    time_t c_t {0};
 
     const MwImage::properties_map &props = mwi.getProperties();
 
@@ -182,14 +182,16 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
     }
 
 
-    for (string field: TIME_DATE_EXIF_FILEDS) {
-
+    for (string field: TIME_DATE_EXIF_FILEDS)
+    {
         it = props.find(field);
 
-        if (it != props.end()) {
+        if (it != props.end())
+        {
             string datetime = it->second;
 
-            if (datetime.empty())  {
+            if (datetime.empty())
+            {
                 continue;
             }
 
@@ -199,7 +201,8 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
 
             c_t = mktime(&t);
 
-            if (VERBOSE) {
+            if (VERBOSE)
+            {
                 string time_s = ctime(&c_t);
                 time_s.erase(time_s.size() - 1);
 
@@ -208,15 +211,19 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
             }
 
             break;
-        } else {
-            if (VERBOSE) {
+        }
+        else
+        {
+            if (VERBOSE)
+            {
                     ss << "\tField " << field << " not found in "
                          << img_path << endl;
             }
         }
     }
 
-    if (VERBOSE) {
+    if (VERBOSE)
+    {
         lock_guard<mutex> lock(mtx);
         cout << ss.str() << endl;
     }
@@ -255,7 +262,7 @@ MwBarCode::sort_parhs2()
 
         // here we will store dates obtained
         // from MwBarCode::readImageDate
-        vector<time_t> read_dates(no_subpaths);
+        vector<time_t> read_dates(no_subpaths, 0);
 
         // start threads for each chunk
         for (size_t i = 0; i < no_subpaths; ++i)
@@ -277,18 +284,27 @@ MwBarCode::sort_parhs2()
             processing_threads.at(i).join();
         }
 
+        // save paths with dates found
         for (size_t i = 0; i < no_subpaths; ++i)
         {
+            time_t date = read_dates.at(i);
+
+            if (date == 0)
+                continue;
+
             sorted_paths.push_back(
-                    make_pair(paths_sub_vector.at(i), read_dates.at(i))
+                    make_pair(paths_sub_vector.at(i), date)
             );
         }
 
     }
 
+    // now sort the paths according to date
+    sortByDate(sorted_paths);
+
 
     // clear found paths as they are unsorted
-    // and pupulate it with paths in ord
+    // and populate it with paths in order
     found_paths.clear();
 
     for (const pair<path, time_t>& sp: sorted_paths)
@@ -366,6 +382,10 @@ MwBarCode::sort_parhs()
     }
 
 
+    // now sort the paths according to date
+    sortByDate(sorted_paths);
+
+
     // clear found paths as they are unsorted
     // and pupulate it with paths in ord
     found_paths.clear();
@@ -377,6 +397,19 @@ MwBarCode::sort_parhs()
 
 
 }
+
+
+
+void
+MwBarCode::sortByDate(sorted_vector& _paths)
+{
+    sort(_paths.begin( ),_paths.end( ),
+         [](const path_date_pair& lhs, const path_date_pair& rhs)
+         {
+             return lhs.second < rhs.second;
+         });
+}
+
 
 template<typename T>
 Magick::Image

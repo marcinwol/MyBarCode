@@ -50,7 +50,6 @@ int main(int ac, const char* av[]) {
     if (*sort_files)
     {
         // sort found paths according to date exif:DateTime
-        //app.sort_parhs();
 
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
         app.sort_parhs2();
@@ -60,7 +59,7 @@ int main(int ac, const char* av[]) {
 
         fmt::print("Sorting time measured: {:d}\n", duration);
 
-        return 1;
+        //return 1;
     }
 
 
