@@ -496,25 +496,25 @@ MwBarCode::addDates(Magick::Image& img)
     char buffer[40];
 
 
-//    for(size_t x = x_offset; x <= columns ; x+=x_step)
-//    {
-//        time_t timestamp = sorted_paths.at(x).second;
-//
-//        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
-//
-//        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
-//    }
-
-
-
     for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
     {
         unsigned x = date_i * x_step + x_offset;
 
-        to_draw.push_back(Magick::DrawableText(x,
-                                               rows - 5,
-                                               "2015:12:29"));
+        time_t timestamp = sorted_paths.at(x).second;
+
+        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
+
+        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
     }
+
+
+//    for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
+//    {
+//        unsigned x = date_i * x_step + x_offset;
+//
+//        to_draw.push_back(Magick::DrawableText(x, rows - 5,
+//                                               "2015:12:29"));
+//    }
 
     img.draw(to_draw);
 
