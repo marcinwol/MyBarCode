@@ -55,8 +55,9 @@ public:
     bool has_images() const {return !found_paths.empty();};
 
 
-    time_t
-    readImageDate(path& img_path);
+    void
+    readImageDate(path img_path, time_t& out_t, mutex& mtx,
+                  size_t path_idx, size_t no_of_paths);
 
 
     const paths_vector &

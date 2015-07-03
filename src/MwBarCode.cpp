@@ -157,8 +157,9 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types, int max_level)
 
 
 
-time_t
-MwBarCode::readImageDate(path& img_path)
+void
+MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
+                         size_t path_idx, size_t no_of_paths)
 {
     MwImage mwi {img_path, MwImage::DO_NOT_READ_IMG};
 
@@ -170,6 +171,16 @@ MwBarCode::readImageDate(path& img_path)
     const MwImage::properties_map &props = mwi.getProperties();
 
     MwImage::properties_map::const_iterator it;
+
+
+    stringstream ss;
+
+    if (VERBOSE)
+    {
+        ss << "Read date of image: ";
+        ss << path_idx << "/" << no_of_paths << endl;
+    }
+
 
     for (string field: TIME_DATE_EXIF_FILEDS) {
 
@@ -192,56 +203,86 @@ MwBarCode::readImageDate(path& img_path)
                 string time_s = ctime(&c_t);
                 time_s.erase(time_s.size() - 1);
 
-                cout << time_s << endl;
+                ss << "\t" << time_s << endl;
+
             }
 
             break;
         } else {
             if (VERBOSE) {
-                cout << "Field " << field << " not found in "
-                     << img_path << endl;
+                    ss << "\tField " << field << " not found in "
+                         << img_path << endl;
             }
         }
     }
 
-    return c_t;
+    if (VERBOSE) {
+        lock_guard<mutex> lock(mtx);
+        cout << ss.str() << endl;
+    }
+
+
+
+    out_t = c_t;
 }
 
 void
 MwBarCode::sort_parhs2()
 {
 
-    size_t no_of_threads {2};
+    size_t no_of_threads = 1;
+
     vector<thread> processing_threads;
+
+    // mutex to be shared among the threads
     mutex process_mutex;
 
 
+    // split vector into chunks of size of no_of_threads
+    vector<paths_vector> split_paths
+            = mw::chunker(found_paths, no_of_threads);
 
-    vector<paths_vector> split_paths =
-            mw::chunker(found_paths, no_of_threads);
+    size_t path_idx {0};
+    size_t no_of_paths = found_paths.size();
 
-    time_t (MwBarCode::*fun)(path&);
 
+    // process each chunk
     for (paths_vector& paths_sub_vector: split_paths)
     {
         vector<thread> processing_threads;
 
-        for (size_t i = 0; i < no_of_threads; ++i)
+        size_t no_subpaths = paths_sub_vector.size();
+
+        // here we will store dates obtained
+        // from MwBarCode::readImageDate
+        vector<time_t> read_dates(no_subpaths);
+
+        // start threads for each chunk
+        for (size_t i = 0; i < no_subpaths; ++i)
         {
+            processing_threads.emplace_back(&MwBarCode::readImageDate,
+                                            this,
+                                            paths_sub_vector.at(i),
+                                            ref(read_dates.at(i)),
+                                            ref(process_mutex),
+                                            ++path_idx,
+                                            no_of_paths
+            );
 
         }
-    }
 
+        // wait for each thread to finish
+        for (size_t i = 0; i < no_subpaths; ++i)
+        {
+            processing_threads.at(i).join();
+        }
 
-    size_t no_of_paths = found_paths.size();
-
-
-
-    for (size_t i = 0; i < no_of_paths; ++i)
-    {
-        const path &_path = found_paths.at(i);
-
-
+        for (size_t i = 0; i < no_subpaths; ++i)
+        {
+            sorted_paths.push_back(
+                    make_pair(paths_sub_vector.at(i), read_dates.at(i))
+            );
+        }
 
     }
 
@@ -270,7 +311,57 @@ MwBarCode::sort_parhs()
     {
         const path &_path = found_paths.at(i);
 
+        MwImage mwi {_path, MwImage::DO_NOT_READ_IMG};
 
+        mwi.ping();
+        mwi.readProperties();
+
+        const MwImage::properties_map &props = mwi.getProperties();
+
+        cout << "Read date of image: ";
+        cout << i << "/" << no_of_paths << endl;
+
+        for (string field: TIME_DATE_EXIF_FILEDS)
+        {
+
+            it = props.find(field);
+
+            if (it != props.end())
+            {
+                string datetime = it->second;
+
+                if (datetime.empty())
+                {
+                    continue;
+                }
+
+                // change string into time
+                tm t{0};
+                strptime(datetime.c_str(), "%Y:%m:%d %H:%M:%S", &t);
+
+                time_t c_t = mktime(&t);
+
+                if (VERBOSE)
+                {
+                    string time_s = ctime(&c_t);
+                    time_s.erase(time_s.size() - 1);
+
+                    cout << "\t" << time_s << endl;
+                }
+
+
+                sorted_paths.push_back(make_pair(_path, c_t));
+
+                break;
+            }
+            else
+            {
+                if (VERBOSE)
+                {
+                    cout << "\tField " << field << " not found in " << _path << endl;
+                }
+            }
+        }
 
     }
 
