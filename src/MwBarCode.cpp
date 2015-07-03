@@ -478,7 +478,7 @@ MwBarCode::addDates(Magick::Image& img)
 
     // use less than maximum number of dates possible
     if (no_of_dates > 3)
-        no_of_dates -= 2;
+        no_of_dates -= 1;
 
 
     // distance between each date
