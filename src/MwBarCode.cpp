@@ -461,7 +461,7 @@ MwBarCode::addDates(Magick::Image& img)
     img.strokeWidth(1);
     img.font("Courier");
     img.fontPointsize(font_size);
-    img.strokeColor("white");
+    img.strokeColor("black");
     img.fillColor("black");
 
 
