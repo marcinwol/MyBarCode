@@ -52,14 +52,13 @@ int main(int ac, const char* av[]) {
         // sort found paths according to date exif:DateTime
 
         high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        app.sort_parhs2();
+        app.sort_parhs2(*no_of_threads);
         high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
         auto duration = std::chrono::duration_cast<std::chrono::seconds>( t2 - t1 ).count();
 
         fmt::print("Sorting time measured: {:d}\n", duration);
 
-        //return 1;
     }
 
 

@@ -71,7 +71,7 @@ public:
 
 
     void sort_parhs();
-    void sort_parhs2();
+    void sort_parhs2(size_t no_of_threads = 1);
 
     template<typename T>
     Magick::Image

@@ -229,15 +229,12 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
     }
 
 
-
     out_t = c_t;
 }
 
 void
-MwBarCode::sort_parhs2()
+MwBarCode::sort_parhs2(size_t no_of_threads)
 {
-
-    size_t no_of_threads = 1;
 
     vector<thread> processing_threads;
 

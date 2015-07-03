@@ -20,11 +20,12 @@ ProcessImages::ProcessImages(
 void
 ProcessImages::start_threads()
 {
+
+    void (ProcessImages::*fun)() =
+            &ProcessImages::execute;
+
     for (size_t i = 0; i < no_of_threads; ++i)
     {
-        //processing_threads.emplace_back(ref(execute));
-        void (ProcessImages::*fun)();
-        fun = &ProcessImages::execute;
         processing_threads.emplace_back(fun, this);
     }
 }
@@ -47,20 +48,22 @@ ProcessImages::execute()
 
     while (i < no_of_files)
     {
+
+        size_t local_idx = i++;
+
         {
             lock_guard<mutex> lock(process_mutex);
             //fmt::print("{}/{}: {}", i, no_of_files, *image_path);
-            image_path = &file_paths.at(i++);
+            image_path = &file_paths.at(local_idx);
 
             if (verbose)
             {
                 cout << "Thread id: "
                      << this_thread::get_id()
-                     << ": File " << i << "/" << no_of_files
+                     << ": File " << local_idx << "/" << no_of_files
                      << ": " << *image_path
                      << endl;
             }
-
 
         }
 
@@ -71,7 +74,9 @@ ProcessImages::execute()
         {
             lock_guard<mutex> lock(process_mutex);
             //out_values.push_back(out_val);
-            out_values.at(i-1) = out_val;
+            out_values.at(local_idx) = out_val;
         }
+
+
     }
 }
