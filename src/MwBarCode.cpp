@@ -538,8 +538,8 @@ MwBarCode::addDates(Magick::Image& img)
     {
         unsigned x = date_i * x_step + x_offset;
 
-        //to_draw.push_back(Magick::DrawableText(x, rows - text_height,
-          //                                     "2015:12:29"));
+        to_draw.push_back(Magick::DrawableText(x, rows - text_height,
+                                              "2015:12:29"));
 
     }
 
