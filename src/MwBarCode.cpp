@@ -520,27 +520,31 @@ MwBarCode::addDates(Magick::Image& img)
     char buffer[40];
 
 
-    for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
-    {
-        unsigned x = date_i * x_step + x_offset;
-
-        time_t timestamp = sorted_paths.at(x).second;
-
-        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
-
-        to_draw.push_back(Magick::DrawableText(x,
-                                               rows - text_height,
-                                               buffer));
-    }
-
-
 //    for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
 //    {
 //        unsigned x = date_i * x_step + x_offset;
 //
-//        to_draw.push_back(Magick::DrawableText(x, rows - 5,
-//                                               "2015:12:29"));
+//        time_t timestamp = sorted_paths.at(x).second;
+//
+//        strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
+//
+//        to_draw.push_back(Magick::DrawableText(x,
+//                                               rows - text_height,
+//                                               buffer));
 //    }
+
+
+    for(size_t date_i = 0; date_i < no_of_dates; ++date_i)
+    {
+        unsigned x = date_i * x_step + x_offset;
+
+        //to_draw.push_back(Magick::DrawableText(x, rows - text_height,
+          //                                     "2015:12:29"));
+
+    }
+
+
+    img.annotate("2015:12:29", "+10+10", Magick::NorthWestGravity, 90);
 
     img.draw(to_draw);
 

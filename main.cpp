@@ -50,51 +50,51 @@ int main(int ac, const char* av[]) {
     }
 
 
-    if (*sort_files)
-    {
-        // sort found paths according to date exif:DateTime
+//    if (*sort_files)
+//    {
+//        // sort found paths according to date exif:DateTime
+//
+//        high_resolution_clock::time_point t1 = high_resolution_clock::now();
+//        app.sort_parhs2(*no_of_threads);
+//        high_resolution_clock::time_point t2 = high_resolution_clock::now();
+//
+//        auto duration = std::chrono::duration_cast<std::chrono::seconds>( t2 - t1 ).count();
+//
+//        fmt::print("Sorting time measured: {:d}\n", duration);
+//
+//    }
+//
+//
+//    // get all image paths in an input folder
+//    MwBarCode::paths_vector found_files = app.getPaths();
+//
+//    // create image processing threads
+//    ProcessImages process_images {*no_of_threads,
+//                                  found_files,
+//                                  *verbose};
+//
+//
+//    high_resolution_clock::time_point t1 = high_resolution_clock::now();
+//
+//    // start processing the images in one or more threads
+//    process_images.start_threads();
+//    process_images.join_threads();
+//
+//    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+//
+//    auto duration = std::chrono::duration_cast<std::chrono::seconds>( t2 - t1 ).count();
+//
+//    fmt::print("Time measured: {:d}\n", duration);
+//
+//    // get avarage values of colorsfrom the images
+//    ProcessImages::out_vector out_values;
+//    out_values = process_images.get_results();
+//
+//    // make the barcode
+//    Magick::Image bar_code;
+//    bar_code = app.makeBarCode(out_values);
 
-        high_resolution_clock::time_point t1 = high_resolution_clock::now();
-        app.sort_parhs2(*no_of_threads);
-        high_resolution_clock::time_point t2 = high_resolution_clock::now();
-
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>( t2 - t1 ).count();
-
-        fmt::print("Sorting time measured: {:d}\n", duration);
-
-    }
-
-
-    // get all image paths in an input folder
-    MwBarCode::paths_vector found_files = app.getPaths();
-
-    // create image processing threads
-    ProcessImages process_images {*no_of_threads,
-                                  found_files,
-                                  *verbose};
-
-
-    high_resolution_clock::time_point t1 = high_resolution_clock::now();
-
-    // start processing the images in one or more threads
-    process_images.start_threads();
-    process_images.join_threads();
-
-    high_resolution_clock::time_point t2 = high_resolution_clock::now();
-
-    auto duration = std::chrono::duration_cast<std::chrono::seconds>( t2 - t1 ).count();
-
-    fmt::print("Time measured: {:d}\n", duration);
-
-    // get avarage values of colorsfrom the images
-    ProcessImages::out_vector out_values;
-    out_values = process_images.get_results();
-
-    // make the barcode
-    Magick::Image bar_code;
-    bar_code = app.makeBarCode(out_values);
-
-    //Image bar_code( Geometry(1600,300), Color("blue") );
+    Image bar_code( Geometry(1600,300), Color("blue") );
 
     app.addDates(bar_code);
 
