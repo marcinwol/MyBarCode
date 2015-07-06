@@ -494,6 +494,7 @@ MwBarCode::addDates(Magick::Image& img)
     img.fontTypeMetrics("2015:12:29", &typeMetrick);
 
     unsigned text_width = typeMetrick.textWidth();
+    unsigned text_height = typeMetrick.textHeight();
 
     unsigned no_of_dates = static_cast<unsigned>(columns / text_width);
 
@@ -527,7 +528,9 @@ MwBarCode::addDates(Magick::Image& img)
 
         strftime (buffer, 40, "%Y:%m:%d", localtime(&timestamp));
 
-        to_draw.push_back(Magick::DrawableText(x, rows - 5, buffer));
+        to_draw.push_back(Magick::DrawableText(x,
+                                               rows - text_height,
+                                               buffer));
     }
 
 
