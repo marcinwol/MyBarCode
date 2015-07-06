@@ -121,9 +121,20 @@ MwBarCode::read_in_dir(const path & in_dir, bool check_types, int max_level)
         {
             const path& _path = all_found_paths.at(i);
 
-            if (verbose) {
+            if (verbose)
+            {
                 cout << "Check if image type of interest: ";
                 cout << i << "/" << no_of_paths << ": " << _path << " ... ";
+            }
+            else
+            {
+
+                if (i % 200 == 0)
+                {
+                    cout << "Check if image type of interest: ";
+                    cout << i << "/" << no_of_paths << ": "
+                         << _path << " ... " << endl;
+                }
             }
 
             if (MwImage::fast_is_image(_path))
@@ -180,6 +191,17 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
         ss << "Read date of image: ";
         ss << path_idx << "/" << no_of_paths << endl;
     }
+    else
+    {
+        if (path_idx % 200 == 0)
+        {
+            ss << "Read date of image: ";
+            ss << path_idx << "/" << no_of_paths;
+
+            lock_guard<mutex> lock(mtx);
+            cout << ss.str() << endl;
+        }
+    }
 
 
     for (string field: TIME_DATE_EXIF_FILEDS)
@@ -209,6 +231,7 @@ MwBarCode::readImageDate(path img_path, time_t& out_t, mutex& mtx,
                 ss << "\t" << time_s << endl;
 
             }
+
 
             break;
         }
@@ -456,7 +479,7 @@ MwBarCode::addDates(Magick::Image& img)
 
 
     // set font size proportionally to image height
-    unsigned font_size = static_cast<unsigned>(rows * 0.1);
+    unsigned font_size = static_cast<unsigned>(rows * 0.05);
 
     img.strokeWidth(1);
     img.font("Courier");

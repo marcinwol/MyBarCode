@@ -35,6 +35,9 @@ int main(int ac, const char* av[]) {
     if (in_dir)
     {
         // read in all image files found in the *in_dir
+        cout << "Reading files in " << *in_dir;
+        cout << " Please wait ... " << endl;
+
         app.read_in_dir(*in_dir,
                         *check_types,
                         MwBarCode::DEFAULT_LEVEL);

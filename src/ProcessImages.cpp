@@ -64,6 +64,19 @@ ProcessImages::execute()
                      << ": " << *image_path
                      << endl;
             }
+            else
+            {
+
+                if (local_idx % 200 == 0)
+                {
+                    cout << "Thread id: "
+                         << this_thread::get_id()
+                         << ": File " << local_idx << "/" << no_of_files
+                         << ": " << *image_path
+                    << endl;
+                }
+
+            }
 
         }
 
